@@ -24,7 +24,9 @@ const Post = ({ slug, title, date, excerpt }) => (
 
 export default ({ data }) => {
   const postCount = data.allMarkdownRemark.totalCount
-  const posts = data.allMarkdownRemark.edges.map(e => toPost(e))
+  const posts = data.allMarkdownRemark.edges
+    .filter(e => e.node.fields)
+    .map(e => toPost(e))
   return (
     <div>
       {posts.map((p, i) => (

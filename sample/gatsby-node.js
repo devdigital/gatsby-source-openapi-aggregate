@@ -4,6 +4,10 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
   const { createNodeField } = boundActionCreators
   if (node.internal.type === `MarkdownRemark`) {
+    if (!node.fileAbsolutePath) {
+      return
+    }
+
     const slug = createFilePath({ node, getNode, basePath: `pages` })
     createNodeField({
       node,
@@ -30,6 +34,10 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       }
     `).then(result => {
       result.data.allMarkdownRemark.edges.map(({ node }) => {
+        if (!node.fields) {
+          return
+        }
+
         createPage({
           path: node.fields.slug,
           component: path.resolve(`./src/templates/blog-post.js`),

@@ -22,13 +22,39 @@ const Post = ({ slug, title, date, excerpt }) => (
   </div>
 )
 
+const Spec = ({ id, title }) =>
+  <div>
+    <p>{id}</p>
+    <p>{title}</p>
+  </div>
+
+Spec.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+}
+
+
+const Specs = ({ specs }) =>
+  <div>
+    {specs.map(s => <Spec key={s.id} id={s.id} title={s.title} />)}
+  </div>
+
+Specs.propTypes = {
+  specs: PropTypes.array.isRequired
+}
+
 export default ({ data }) => {
   const postCount = data.allMarkdownRemark.totalCount
   const posts = data.allMarkdownRemark.edges
     .filter(e => e.node.fields)
     .map(e => toPost(e))
+
+  const specs = data.allOpenApiSpec.edges
+
   return (
     <div>
+      <Specs specs={specs} />
+      <h2>Posts</h2>
       {posts.map((p, i) => (
         <Post
           key={`post-${i}`}

@@ -8,18 +8,28 @@ const toHash = value => {
 }
 
 const spec20Processor = (name, spec) => {
+
+  const paths = Object.keys(spec.paths).map(k => ({
+    id: k,
+    
+  }))
+
   return [
     {
       id: name,
       parent: null,
-      children: ['Description'],
+      children: ['description'],
       fields: {
         version: spec.info.version,
         title: spec.info.title,
+        host: spec.host,
+        schemes: spec.schemes,
+        basePath: spec.basePath,
+        produces: spec.produces
       },
     },
     {
-      id: 'Description',
+      id: 'description',
       parent: name,
       children: [],
       meta: {
@@ -67,7 +77,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
             parent: n.parent ? `__openapi__${n.parent}` : null,
             children: n.children.map(c => `__openapi__${c}`),
             internal: {
-              type: `OpenAPIField`,
+              type: `OpenApiSpec`,
             },
           },
           n.fields

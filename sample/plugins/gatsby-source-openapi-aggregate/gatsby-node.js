@@ -12,9 +12,25 @@ const spec20Processor = (name, spec) => {
 
   const paths = []
 
+  const definitions = Object.keys(spec.definitions).map(d => {
+    const definition = spec.definitions[d]
+    return {
+      id: `${name}.${d}`,
+      parent: rootId,
+      children: [],
+      fields: {
+        properties: Object.keys(definition.properties).map(
+          k => definition.properties[k]
+        ),
+      },
+    }
+  })
+
   Object.keys(spec.paths).forEach(k => {
     Object.keys(spec.paths[k]).forEach(v => {
       const path = spec.paths[k][v]
+      // const responses = Object.keys(path.responses).map(r => )
+
       paths.push({
         id: k,
         parent: rootId,
@@ -22,12 +38,15 @@ const spec20Processor = (name, spec) => {
         fields: {
           verb: v,
           summary: path.summary,
+          description: path.description,
+          parameters: path.parameters,
+          tags: path.tags,
         },
       })
     })
   })
 
-  const root = {
+  const information = {
     id: rootId,
     parent: null,
     children: [...paths.map(p => p.id)],
@@ -42,8 +61,9 @@ const spec20Processor = (name, spec) => {
   }
 
   return {
-    spec: root,
-    paths: paths,
+    information,
+    paths,
+    definitions,
   }
 
   // return [
@@ -125,13 +145,15 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       const json = JSON.parse(jsonText)
       const processor = specProcessorFactory(json)
       const result = processor(spec.name, json)
-      console.log('result', result)
 
-      // { spec, paths }
+      // { information, paths, definitions }
       const nodes = []
-      nodes.push(toNode(result.spec, 'OpenApiSpec'))
+      nodes.push(toNode(result.information, 'OpenApiSpec'))
       result.paths.forEach(p => {
         nodes.push(toNode(p, 'OpenApiSpecPath'))
+      })
+      result.definitions.forEach(d => {
+        nodes.push(toNode(d, 'OpenApiSpecDefinition'))
       })
 
       nodes.forEach(n => {

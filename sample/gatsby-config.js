@@ -24,7 +24,7 @@ module.exports = {
       options: {
         specs: [
           {
-            name: 'test',
+            name: 'uber',
             resolve: () => fromJson(path.resolve(__dirname, './swagger.json')),
           },
         ],

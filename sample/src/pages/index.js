@@ -1,7 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import g from 'glamorous'
 import Link from 'gatsby-link'
-
 import { rhythm } from '../utils/typography'
 
 const toPost = edge => ({
@@ -22,25 +22,24 @@ const Post = ({ slug, title, date, excerpt }) => (
   </div>
 )
 
-const Spec = ({ id, title }) =>
+const Spec = ({ id, title }) => (
   <div>
     <p>{id}</p>
     <p>{title}</p>
   </div>
+)
 
 Spec.propTypes = {
   id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string,
 }
 
-
-const Specs = ({ specs }) =>
-  <div>
-    {specs.map(s => <Spec key={s.id} id={s.id} title={s.title} />)}
-  </div>
+const Specs = ({ specs }) => (
+  <div>{specs.map(s => <Spec key={s.id} id={s.id} title={s.title} />)}</div>
+)
 
 Specs.propTypes = {
-  specs: PropTypes.array.isRequired
+  specs: PropTypes.array.isRequired,
 }
 
 export default ({ data }) => {
@@ -49,7 +48,7 @@ export default ({ data }) => {
     .filter(e => e.node.fields)
     .map(e => toPost(e))
 
-  const specs = data.allOpenApiSpec.edges
+  const specs = data.allOpenApiSpec.edges.map(e => e.node)
 
   return (
     <div>
@@ -70,6 +69,14 @@ export default ({ data }) => {
 
 export const query = graphql`
   query IndexQuery {
+    allOpenApiSpec {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
     allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
       totalCount
       edges {

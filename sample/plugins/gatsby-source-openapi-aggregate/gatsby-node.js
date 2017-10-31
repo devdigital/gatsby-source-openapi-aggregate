@@ -9,9 +9,7 @@ const toHash = value => {
 
 const spec20Processor = (name, spec) => {
   const rootId = name
-
-  const paths = []
-
+  
   const definitions = Object.keys(spec.definitions).map(d => {
     const definition = spec.definitions[d]
     return {
@@ -19,6 +17,7 @@ const spec20Processor = (name, spec) => {
       parent: rootId,
       children: [],
       fields: {
+        name: d,
         properties: Object.keys(definition.properties).map(
           k => definition.properties[k]
         ),
@@ -26,10 +25,31 @@ const spec20Processor = (name, spec) => {
     }
   })
 
+  const paths = []
+  const responses = []
   Object.keys(spec.paths).forEach(k => {
     Object.keys(spec.paths[k]).forEach(v => {
       const path = spec.paths[k][v]
-      // const responses = Object.keys(path.responses).map(r => )
+      const pathResponses = Object.keys(path.responses).map(r => {
+        const response = path.responses[r]
+
+        const ref = response.schema.type === 'array' 
+          ? response.schema.items.$ref
+          : response.schema.$ref
+  
+        const definitionId = ref.replace('#/definitions/', '')
+         
+        return {
+          id: path.responses[r],
+          parent: k,
+          children: [`${name}.${definitionId}`],
+          description: response.description
+        }
+      })
+
+      pathResponses.forEach(r => {
+        responses.push(r)
+      })
 
       paths.push({
         id: k,

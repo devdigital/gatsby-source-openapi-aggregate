@@ -17,30 +17,42 @@ SpecInformation.propTypes = {
   description: PropTypes.string.isRequired,
 }
 
-const Verb = ({ value, style }) => {
-  let color = null
-
+const verbColor = value => {
   switch (value) {
     case 'get':
-      color = '#61affe'
-      break
+      return {
+        foreground: '#61affe',
+        background: 'rgba(97,175,254,.1)',
+      }
     case 'post':
-      color = '#49cc90'
-      break
+      return {
+        foreground: '#49cc90',
+        background: 'rgba(73,204,144,.1)',
+      }
     case 'put':
-      color = '#fca130'
-      break
+      return {
+        foreground: '#fca130',
+        background: 'rgba(252,161,48,.1)',
+      }
     case 'delete':
-      color = '#f93e3e'
-      break
+      return {
+        foreground: '#f93e3e',
+        background: 'rgba(249,62,62,.1)',
+      }
     default:
-      color = '#fff'
-      break
+      return {
+        foreground: '#fff',
+        background: '#fff',
+      }
   }
 
+  return color
+}
+
+const Verb = ({ value, style }) => {
   const verbStyle = {
     padding: '0.2rem 0.5rem',
-    backgroundColor: color,
+    backgroundColor: verbColor(value).foreground,
     color: '#fff',
   }
 
@@ -96,7 +108,7 @@ const SpecPathParameter = ({
         <p>
           {name} {required && <span style={superScriptStyle}>* required</span>}
         </p>
-        <p style={{ fontWeight: 600 }}>{type}</p>
+        {type && <p style={{ fontWeight: 600 }}>{type}</p>}
         {source && (
           <p>
             <em>({source})</em>
@@ -111,8 +123,8 @@ const SpecPathParameter = ({
 SpecPathParameter.propTypes = {
   name: PropTypes.string.isRequired,
   source: PropTypes.string,
-  description: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  type: PropTypes.string,
   format: PropTypes.string,
   required: PropTypes.bool,
 }
@@ -145,10 +157,18 @@ SpecPathParameters.propTypes = {
   parameters: PropTypes.array.isRequired,
 }
 
+const pathStyle = verb => ({
+  padding: '1rem',
+  borderRadius: '4px',
+  border: `2px solid ${verbColor(verb).background}`,
+  backgroundColor: verbColor(verb).background,
+})
+
 const SpecPath = ({ path }) => {
   const responses = path.childrenOpenApiSpecResponse
+
   return (
-    <div>
+    <div style={pathStyle(path.verb)}>
       <div style={{ display: 'flex' }}>
         <Verb style={{ marginRight: '1rem' }} value={path.verb} />
         <p style={{ fontWeight: 600 }}>{path.name}</p>
@@ -176,7 +196,11 @@ SpecPath.propTypes = {
 const SpecPaths = ({ tag, paths }) => (
   <div>
     <h2>{tag}</h2>
-    {paths.map(p => <SpecPath key={`${p.name}-${p.verb}`} path={p} />)}
+    {paths.map(p => (
+      <div key={`${p.name}-${p.verb}`} style={{ marginBottom: '1rem' }}>
+        <SpecPath path={p} />
+      </div>
+    ))}
   </div>
 )
 

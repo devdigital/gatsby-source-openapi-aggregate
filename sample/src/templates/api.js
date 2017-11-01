@@ -59,21 +59,60 @@ const Verb = ({ value, style }) => {
   return <p style={Object.assign(verbStyle, style)}>{value.toUpperCase()}</p>
 }
 
-const SpecDefinition = ({ definition }) => (
-  <div>
-    <p>{definition.name}</p>
-  </div>
+const SpecDefinitionProperty = ({ name, type, description, format }) => (
+  <tr>
+    <td>{name}</td>
+    <td>{type}</td>
+    <td>{description}</td>
+    <td>{format}</td>
+  </tr>
 )
 
+SpecDefinitionProperty.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  description: PropTypes.string,
+  format: PropTypes.string,
+}
+
+const SpecDefinition = ({ definition }) =>
+  console.log(definition) || (
+    <div>
+      <p>{definition.name}</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Format</th>
+          </tr>
+        </thead>
+        <tbody>
+          {definition.properties.map((p, i) => (
+            <SpecDefinitionProperty
+              key={`property-${i}`}
+              name={p.name}
+              type={p.type}
+              description={p.description}
+              format={p.format}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
 SpecDefinition.propTypes = {
   definition: PropTypes.object.isRequired,
 }
 
 const SpecPathResponse = ({ statusCode, description, definitions }) => {
   return (
-    <div style={{ display: 'flex' }}>
-      <p style={{ marginRight: '1rem' }}>{statusCode}</p>
-      <p>{description}</p>
+    <div>
+      <div style={{ display: 'flex' }}>
+        <p style={{ marginRight: '1rem' }}>{statusCode}</p>
+        <p>{description}</p>
+      </div>
       {definitions.length === 1 ? (
         <SpecDefinition definition={definitions[0]} />
       ) : null}

@@ -1,4 +1,5 @@
 const crypto = require(`crypto`)
+const specProcessorFactory = require('./processors/factory')
 
 const toHash = value => {
   return crypto
@@ -7,110 +8,20 @@ const toHash = value => {
     .digest(`hex`)
 }
 
-const spec20Processor = (name, spec) => {
-  const rootId = name
-  
-  const definitions = Object.keys(spec.definitions).map(d => {
-    const definition = spec.definitions[d]
-    return {
-      id: `${name}.${d}`,
-      parent: rootId,
-      children: [],
-      fields: {
-        name: d,
-        properties: Object.keys(definition.properties).map(
-          k => definition.properties[k]
-        ),
-      },
-    }
-  })
-
-  const paths = []
-  const responses = []
-  Object.keys(spec.paths).forEach(k => {
-    Object.keys(spec.paths[k]).forEach(v => {
-      const path = spec.paths[k][v]
-      const pathResponses = Object.keys(path.responses).map(r => {
-        const response = path.responses[r]
-
-        const ref = response.schema.type === 'array' 
-          ? response.schema.items.$ref
-          : response.schema.$ref
-  
-        const definitionId = ref.replace('#/definitions/', '')
-         
-        return {
-          id: path.responses[r],
-          parent: k,
-          children: [`${name}.${definitionId}`],
-          description: response.description
-        }
-      })
-
-      pathResponses.forEach(r => {
-        responses.push(r)
-      })
-
-      paths.push({
-        id: k,
-        parent: rootId,
-        children: [],
-        fields: {
-          verb: v,
-          summary: path.summary,
-          description: path.description,
-          parameters: path.parameters,
-          tags: path.tags,
-        },
-      })
-    })
-  })
-
-  const information = {
-    id: rootId,
-    parent: null,
-    children: [...paths.map(p => p.id)],
-    fields: {
-      version: spec.info.version,
-      title: spec.info.title,
-      host: spec.host,
-      schemes: spec.schemes,
-      basePath: spec.basePath,
-      produces: spec.produces,
-    },
-  }
-
-  return {
-    information,
-    paths,
-    definitions,
-  }
-
-  // return [
-  //   root,
-  //   ...paths,
-  //   {
-  //     id: 'description',
-  //     parent: rootId,
-  //     children: [],
-  //     meta: {
-  //       mediaType: 'text/markdown',
-  //       content: spec.info.description,
-  //     },
-  //   },
-  // ]
-}
-
-const specProcessorFactory = spec => {
-  if (spec.swagger === '2.0') {
-    return spec20Processor
-  }
-
-  throw new Error(`Unsupported spec ${spec.swagger}`)
-}
-
 const toNode = (data, type) => {
   const openApiPrefix = '__openapi__'
+
+  if (!data) {
+    throw new Error('No data object specified')
+  }
+
+  if (!type) {
+    throw new Error('No type specified')
+  }
+
+  if (!data.hasOwnProperty('id')) {
+    throw new Error('Data object has no id property')
+  }
 
   if (!data.hasOwnProperty('parent')) {
     throw new Error('Data object has no parent property')
@@ -118,6 +29,14 @@ const toNode = (data, type) => {
 
   if (!data.hasOwnProperty('children') || !Array.isArray(data.children)) {
     throw new Error('Data object has no children array property')
+  }
+
+  if (data.hasOwnProperty('fields') && data.hasOwnProperty('meta')) {
+    throw new Error('Data object defines both a fields and a meta property')
+  }
+
+  if (!data.hasOwnProperty('fields') && !data.hasOwnProperty('meta')) {
+    throw new Error('Data object does not define a fields or meta property')
   }
 
   const node = Object.assign(
@@ -166,11 +85,14 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       const processor = specProcessorFactory(json)
       const result = processor(spec.name, json)
 
-      // { information, paths, definitions }
+      // { information, paths, responses, definitions }
       const nodes = []
       nodes.push(toNode(result.information, 'OpenApiSpec'))
       result.paths.forEach(p => {
         nodes.push(toNode(p, 'OpenApiSpecPath'))
+      })
+      result.responses.forEach(r => {
+        nodes.push(toNode(r, 'OpenApiSpecResponse'))
       })
       result.definitions.forEach(d => {
         nodes.push(toNode(d, 'OpenApiSpecDefinition'))

@@ -9,7 +9,7 @@ const toHash = value => {
 }
 
 const toNode = (data, type) => {
-  const openApiPrefix = '__openapi__'
+  const openApiPrefix = 'openapi.'
 
   if (!data) {
     throw new Error('No data object specified')

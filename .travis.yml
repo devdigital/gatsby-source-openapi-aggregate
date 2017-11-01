@@ -3,9 +3,8 @@ node_js:
   - "8"
 before_script: yarn run build
 deploy:
-  provider: script
-  email: devdigital.cloud@gmail.com
-  script: sh ./deploy.sh
-  skip_cleanup: true
+  provider: npm
+  email: "devdigital.cloud@gmail.com"
+  api_key: $NPM_TOKEN
   on:
     tags: true

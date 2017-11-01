@@ -77,6 +77,7 @@ const spec20Processor = (name, spec) => {
     parent: null,
     children: [...paths.map(p => p.id), ...definitions.map(d => d.id)],
     fields: {
+      name: rootId,
       version: spec.info.version,
       title: spec.info.title,
       description: spec.info.description,

@@ -22,20 +22,21 @@ const Post = ({ slug, title, date, excerpt }) => (
   </div>
 )
 
-const Spec = ({ id, title }) => (
-  <div>
-    <p>{id}</p>
-    <p>{title}</p>
-  </div>
+const Spec = ({ name, title }) => (
+  <li>
+    <Link to={`/apis/${name}`}>{title}</Link>
+  </li>
 )
 
 Spec.propTypes = {
-  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   title: PropTypes.string,
 }
 
 const Specs = ({ specs }) => (
-  <div>{specs.map(s => <Spec key={s.id} id={s.id} title={s.title} />)}</div>
+  <div>
+    <ul>{specs.map(s => <Spec key={s.id} name={s.name} title={s.title} />)}</ul>
+  </div>
 )
 
 Specs.propTypes = {
@@ -52,7 +53,9 @@ export default ({ data }) => {
 
   return (
     <div>
+      <h2>Specs</h2>
       <Specs specs={specs} />
+      <hr />
       <h2>Posts</h2>
       {posts.map((p, i) => (
         <Post
@@ -72,7 +75,7 @@ export const query = graphql`
     allOpenApiSpec {
       edges {
         node {
-          id
+          name
           title
         }
       }

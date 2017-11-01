@@ -72,7 +72,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       jsonText = await spec.resolve()
     } catch (exception) {
       console.warn(
-        `There was an error resolving spec '${spec.name}', ${exception.name} ${exception.message}`
+        `There was an error resolving spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
       )
     }
 
@@ -103,7 +103,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       })
     } catch (exception) {
       console.warn(
-        `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message}`
+        `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
       )
     }
   })

@@ -30,17 +30,21 @@ const spec20Processor = (name, spec) => {
       const pathResponses = Object.keys(path.responses).map(r => {
         const response = path.responses[r]
 
-        const ref =
-          response.schema.type === 'array'
-            ? response.schema.items.$ref
-            : response.schema.$ref
+        let ref = null
 
-        const definitionId = ref.replace('#/definitions/', '')
+        if (response.schema) {
+          ref =
+            response.schema.type === 'array'
+              ? response.schema.items.$ref
+              : response.schema.$ref
+        }
+
+        const definitionId = ref ? ref.replace('#/definitions/', '') : null
 
         return {
           id: `${name}.path.${p}.response.${v}.${r}`,
           parent: `${name}.path.${p}`,
-          children: [`${name}.definition.${definitionId}`],
+          children: definitionId ? [`${name}.definition.${definitionId}`] : [],
           fields: {
             statusCode: r,
             description: response.description,
@@ -75,6 +79,7 @@ const spec20Processor = (name, spec) => {
     fields: {
       version: spec.info.version,
       title: spec.info.title,
+      description: spec.info.description,
       host: spec.host,
       schemes: spec.schemes,
       basePath: spec.basePath,
@@ -88,20 +93,6 @@ const spec20Processor = (name, spec) => {
     responses,
     definitions,
   }
-
-  // return [
-  //   root,
-  //   ...paths,
-  //   {
-  //     id: 'description',
-  //     parent: rootId,
-  //     children: [],
-  //     meta: {
-  //       mediaType: 'text/markdown',
-  //       content: spec.info.description,
-  //     },
-  //   },
-  // ]
 }
 
 module.exports = spec20Processor

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "babel ./sample/plugins/gatsby-source-openapi-aggregate --out-dir . --ignore __tests__",
     "watch": "babel ./sample/plugins/gatsby-source-openapi-aggregate -w . --out-dir . --ignore __tests__",
+    "test": "echo No tests specified",
     "release": "standard-version"
   },
   "keywords": [

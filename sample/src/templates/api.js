@@ -75,33 +75,32 @@ SpecDefinitionProperty.propTypes = {
   format: PropTypes.string,
 }
 
-const SpecDefinition = ({ definition }) =>
-  console.log(definition) || (
-    <div>
-      <p>{definition.name}</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Format</th>
-          </tr>
-        </thead>
-        <tbody>
-          {definition.properties.map((p, i) => (
-            <SpecDefinitionProperty
-              key={`property-${i}`}
-              name={p.name}
-              type={p.type}
-              description={p.description}
-              format={p.format}
-            />
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
+const SpecDefinition = ({ definition }) => (
+  <div>
+    <p>{definition.name}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        {definition.properties.map((p, i) => (
+          <SpecDefinitionProperty
+            key={`property-${i}`}
+            name={p.name}
+            type={p.type}
+            description={p.description}
+            format={p.format}
+          />
+        ))}
+      </tbody>
+    </table>
+  </div>
+)
 SpecDefinition.propTypes = {
   definition: PropTypes.object.isRequired,
 }

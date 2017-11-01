@@ -9,9 +9,15 @@ const spec20Processor = (name, spec) => {
       children: [],
       fields: {
         name: d,
-        properties: Object.keys(definition.properties).map(
-          k => definition.properties[k]
-        ),
+        properties: Object.keys(definition.properties).map(k => {
+          const property = definition.properties[k]
+          return {
+            name: k,
+            type: property.type,
+            description: property.description,
+            format: property.format,
+          }
+        }),
       },
     }
   })
@@ -34,7 +40,7 @@ const spec20Processor = (name, spec) => {
         return {
           id: `${k}.${v}.${r}`,
           parent: k,
-          children: [], // `${name}.${definitionId}`
+          children: [`${name}.${definitionId}`],
           fields: {
             statusCode: r,
             description: response.description,

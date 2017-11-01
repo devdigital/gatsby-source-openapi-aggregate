@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import remark from 'remark'
+import reactRenderer from 'remark-react'
 
 class Api extends Component {
   render() {
@@ -9,7 +11,13 @@ class Api extends Component {
       <div>
         <h1>{api.title}</h1>
         <p>{api.version}</p>
-        <p>{api.description}</p>
+        <div>
+          {
+            remark()
+              .use(reactRenderer)
+              .processSync(api.description).contents
+          }
+        </div>
       </div>
     )
   }

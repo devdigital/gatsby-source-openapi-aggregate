@@ -17,7 +17,8 @@
     "gatsby-transformer-remark": "^1.7.15",
     "glamorous": "^4.9.7",
     "lodash.rest": "^4.0.5",
-    "mermaid": "^7.1.0",
+    "remark": "^8.0.0",
+    "remark-react": "^4.0.1",
     "typography-theme-alton": "^0.15.10",
     "typography-theme-kirkham": "^0.16.3",
     "typography-theme-twin-peaks": "^0.15.11"

@@ -65,7 +65,9 @@ const toNode = (data, type) => {
 exports.sourceNodes = async ({ boundActionCreators }, options) => {
   const { createNode } = boundActionCreators
 
-  // TODO: validate options
+  // TODO: validate options [{ name, resolve }]
+  // each name should be unique, only name and resolve properties should be present
+  // also, resolve should be a function which returns a promise
   options.specs.forEach(async spec => {
     let jsonText = null
     try {

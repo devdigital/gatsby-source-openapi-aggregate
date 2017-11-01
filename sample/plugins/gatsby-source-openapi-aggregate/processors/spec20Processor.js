@@ -1,10 +1,10 @@
 const spec20Processor = (name, spec) => {
-  const rootId = name
+  const rootId = `spec.${name}`
 
   const definitions = Object.keys(spec.definitions).map(d => {
     const definition = spec.definitions[d]
     return {
-      id: `${name}.definition.${d}`,
+      id: `${rootId}.definition.${d}`,
       parent: rootId,
       children: [],
       fields: {
@@ -42,9 +42,11 @@ const spec20Processor = (name, spec) => {
         const definitionId = ref ? ref.replace('#/definitions/', '') : null
 
         return {
-          id: `${name}.path.${p}.response.${v}.${r}`,
-          parent: `${name}.path.${p}`,
-          children: definitionId ? [`${name}.definition.${definitionId}`] : [],
+          id: `${rootId}.path.${p}.verb.${v}.response.${r}`,
+          parent: `${rootId}.path.${p}.verb.${v}`,
+          children: definitionId
+            ? [`${rootId}.definition.${definitionId}`]
+            : [],
           fields: {
             statusCode: r,
             description: response.description,
@@ -57,7 +59,7 @@ const spec20Processor = (name, spec) => {
       })
 
       paths.push({
-        id: `${name}.path.${p}`,
+        id: `${rootId}.path.${p}.verb.${v}`,
         parent: rootId,
         children: [...pathResponses.map(pr => pr.id)],
         fields: {
@@ -67,6 +69,7 @@ const spec20Processor = (name, spec) => {
           description: path.description,
           parameters: path.parameters,
           tags: path.tags,
+          tag: path.tags ? path.tags.join(',') : null,
         },
       })
     })
@@ -77,7 +80,7 @@ const spec20Processor = (name, spec) => {
     parent: null,
     children: [...paths.map(p => p.id), ...definitions.map(d => d.id)],
     fields: {
-      name: rootId,
+      name,
       version: spec.info.version,
       title: spec.info.title,
       description: spec.info.description,

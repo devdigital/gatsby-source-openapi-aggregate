@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import remark from 'remark'
-import reactRenderer from 'remark-react'
+import Markdown from '../components/Markdown'
 import groupBy from 'lodash.groupby'
 
 const SpecInformation = ({ title, version, description }) => (
   <div>
     <h1>{title}</h1>
     <p>{version}</p>
-    <div>
-      {
-        remark()
-          .use(reactRenderer)
-          .processSync(description).contents
-      }
-    </div>
+    <Markdown markdown={description} />
   </div>
 )
 
@@ -54,16 +47,127 @@ const Verb = ({ value, style }) => {
   return <p style={Object.assign(verbStyle, style)}>{value.toUpperCase()}</p>
 }
 
-const SpecPath = ({ path }) => (
+const SpecDefinition = ({ definition }) => (
   <div>
-    <div style={{ display: 'flex' }}>
-      <Verb style={{ marginRight: '1rem' }} value={path.verb} />
-      <p style={{ fontWeight: 600 }}>{path.name}</p>
-      <p style={{ marginLeft: 'auto' }}>{path.summary}</p>
-    </div>
-    {path.description && <p>{path.description}</p>}
+    <p>{definition.name}</p>
   </div>
 )
+
+SpecDefinition.propTypes = {
+  definition: PropTypes.object.isRequired,
+}
+
+const SpecPathResponse = ({ statusCode, description, definitions }) => {
+  return (
+    <div style={{ display: 'flex' }}>
+      <p style={{ marginRight: '1rem' }}>{statusCode}</p>
+      <p>{description}</p>
+      {definitions.length === 1 ? (
+        <SpecDefinition definition={definitions[0]} />
+      ) : null}
+    </div>
+  )
+}
+
+SpecPathResponse.propTypes = {
+  statusCode: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  definitions: PropTypes.array.isRequired,
+}
+
+const SpecPathParameter = ({
+  name,
+  source,
+  description,
+  type,
+  format,
+  required,
+}) => {
+  const superScriptStyle = {
+    position: 'relative',
+    top: '-0.5em',
+    fontSize: '0.6rem',
+    color: 'rgba(255,0,0,.6)',
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>
+          {name} {required && <span style={superScriptStyle}>* required</span>}
+        </p>
+        <p style={{ fontWeight: 600 }}>{type}</p>
+        {source && (
+          <p>
+            <em>({source})</em>
+          </p>
+        )}
+      </td>
+      <td>{description}</td>
+    </tr>
+  )
+}
+
+SpecPathParameter.propTypes = {
+  name: PropTypes.string.isRequired,
+  source: PropTypes.string,
+  description: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  format: PropTypes.string,
+  required: PropTypes.bool,
+}
+
+const SpecPathParameters = ({ parameters }) => (
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {parameters.map((p, i) => (
+        <SpecPathParameter
+          key={`parameter-${i}`}
+          name={p.name}
+          source={p.in}
+          description={p.description}
+          type={p.type}
+          format={p.format}
+          required={p.required}
+        />
+      ))}
+    </tbody>
+  </table>
+)
+
+SpecPathParameters.propTypes = {
+  parameters: PropTypes.array.isRequired,
+}
+
+const SpecPath = ({ path }) => {
+  const responses = path.childrenOpenApiSpecResponse
+  return (
+    <div>
+      <div style={{ display: 'flex' }}>
+        <Verb style={{ marginRight: '1rem' }} value={path.verb} />
+        <p style={{ fontWeight: 600 }}>{path.name}</p>
+        <p style={{ marginLeft: 'auto' }}>{path.summary}</p>
+      </div>
+      {path.parameters && <SpecPathParameters parameters={path.parameters} />}
+      {path.description && <Markdown markdown={path.description} />}
+      <h3>Responses</h3>
+      {responses.map(r => (
+        <SpecPathResponse
+          key={r.id}
+          statusCode={r.statusCode}
+          description={r.description}
+          definitions={r.childrenOpenApiSpecDefinition}
+        />
+      ))}
+    </div>
+  )
+}
 
 SpecPath.propTypes = {
   path: PropTypes.object.isRequired,
@@ -119,8 +223,17 @@ export const query = graphql`
         verb
         summary
         description
+        parameters {
+          name
+          in
+          description
+          required
+          type
+          format
+        }
         tag
         childrenOpenApiSpecResponse {
+          id
           statusCode
           description
           childrenOpenApiSpecDefinition {

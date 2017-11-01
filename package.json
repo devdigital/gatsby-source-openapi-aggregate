@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-openapi-aggregate",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Gatsby source plugin for pulling data into Gatsby from Open API/Swagger specifications",
   "scripts": {
     "build": "babel ./sample/plugins/gatsby-source-openapi-aggregate --out-dir . --ignore __tests__",

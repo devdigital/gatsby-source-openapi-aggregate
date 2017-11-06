@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import g from 'glamorous'
 import Markdown from '~/common/Markdown'
 import Verb, { verbColor } from './Verb'
 import SpecPathResponse from './SpecPathResponse'
@@ -8,32 +9,35 @@ import SpecPathParameters from './SpecPathParameters'
 const pathStyle = verb => ({
   padding: '1rem',
   borderRadius: '4px',
-  border: `2px solid ${verbColor(verb).background}`,
-  backgroundColor: verbColor(verb).background,
+  border: `2px solid ${verbColor(verb).normal}`,
+  backgroundColor: verbColor(verb).lighter,
 })
 
 const SpecPath = ({ path }) => {
   const responses = path.childrenOpenApiSpecResponse
 
   return (
-    <div style={pathStyle(path.verb)}>
-      <div style={{ display: 'flex' }}>
-        <Verb style={{ marginRight: '1rem' }} value={path.verb} />
-        <p style={{ fontWeight: 600 }}>{path.name}</p>
-        <p style={{ marginLeft: 'auto' }}>{path.summary}</p>
-      </div>
+    <g.Div css={pathStyle(path.verb)}>
+      <g.Div display="flex" alignItems="center">
+        <g.Div marginRight="1rem">
+          <Verb value={path.verb} />
+        </g.Div>
+        <g.P fontWeight="600">{path.name}</g.P>
+        <g.P marginLeft="auto">{path.summary}</g.P>
+      </g.Div>
       {path.parameters && <SpecPathParameters parameters={path.parameters} />}
       {path.description && <Markdown markdown={path.description} />}
       <h3>Responses</h3>
       {responses.map(r => (
         <SpecPathResponse
           key={r.id}
+          verb={path.verb}
           statusCode={r.statusCode}
           description={r.description}
           definitions={r.childrenOpenApiSpecDefinition}
         />
       ))}
-    </div>
+    </g.Div>
   )
 }
 
@@ -45,9 +49,9 @@ const SpecPaths = ({ tag, paths }) => (
   <div>
     <h2>{tag}</h2>
     {paths.map(p => (
-      <div key={`${p.name}-${p.verb}`} style={{ marginBottom: '1rem' }}>
+      <g.Div key={`${p.name}-${p.verb}`} marginBottom="1rem">
         <SpecPath path={p} />
-      </div>
+      </g.Div>
     ))}
   </div>
 )

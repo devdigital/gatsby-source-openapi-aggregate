@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import g from 'glamorous'
 
 const superScriptStyle = {
   position: 'relative',
@@ -19,10 +20,15 @@ const SpecPathParameter = ({
   return (
     <tr>
       <td>
-        <p>
-          {name} {required && <span style={superScriptStyle}>* required</span>}
-        </p>
-        {type && <p style={{ fontWeight: 600 }}>{type}</p>}
+        <g.P marginBottom="0.5rem">
+          {name}{' '}
+          {required && <g.Span css={superScriptStyle}>* required</g.Span>}
+        </g.P>
+        {type && (
+          <g.P fontWeight="600" marginBottom="0">
+            {type}
+          </g.P>
+        )}
         {source && (
           <p>
             <em>({source})</em>

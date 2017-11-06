@@ -4,6 +4,11 @@ import Link from 'gatsby-link'
 import groupBy from 'lodash.groupby'
 import SpecInformation from '~/spec/SpecInformation'
 import SpecPaths from '~/spec/SpecPaths'
+import g from 'glamorous'
+
+const backStyle = {
+  marginBottom: '1rem',
+}
 
 class Api extends Component {
   render() {
@@ -13,7 +18,9 @@ class Api extends Component {
 
     return (
       <div>
-        <Link to="/">Back</Link>
+        <g.Div css={backStyle}>
+          <Link to="/">Back</Link>
+        </g.Div>
         <SpecInformation
           title={api.title}
           version={api.version}

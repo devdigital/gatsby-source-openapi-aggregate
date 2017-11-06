@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import g from 'glamorous'
 
 const SpecDefinitionProperty = ({ name, type, description, format }) => (
   <tr>
@@ -19,7 +20,9 @@ SpecDefinitionProperty.propTypes = {
 
 const SpecDefinition = ({ definition }) => (
   <div>
-    <p>{definition.name}</p>
+    <g.P fontWeight="600" fontStyle="italic" marginBottom="0">
+      {definition.name}
+    </g.P>
     <table>
       <thead>
         <tr>

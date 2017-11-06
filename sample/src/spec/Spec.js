@@ -13,16 +13,4 @@ Spec.propTypes = {
   title: PropTypes.string,
 }
 
-const Specs = ({ specs }) => (
-  <div>
-    <ul>
-      {specs.map(s => <Spec key={s.name} name={s.name} title={s.title} />)}
-    </ul>
-  </div>
-)
-
-Specs.propTypes = {
-  specs: PropTypes.array.isRequired,
-}
-
-export default Specs
+export default Spec

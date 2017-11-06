@@ -1,8 +1,8 @@
 import React from 'react'
 import g from 'glamorous'
 import Link from 'gatsby-link'
-import Specs from '../components/Specs'
-import { rhythm } from '../utils/typography'
+import Specs from '~/spec/Specs'
+import { rhythm } from '~/utils/typography'
 
 const toPost = edge => ({
   slug: edge.node.fields.slug,

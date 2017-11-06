@@ -26,12 +26,12 @@ module.exports = {
           {
             name: 'uber',
             resolve: () =>
-              fromJson(path.resolve(__dirname, './swagger-uber.json')),
+              fromJson(path.resolve(__dirname, './data/swagger-uber.json')),
           },
           {
-            name: 'petstore',
+            name: 'pet-store',
             resolve: () =>
-              fromJson(path.resolve(__dirname, './swagger-petstore.json')),
+              fromJson(path.resolve(__dirname, './data/swagger-petstore.json')),
           },
         ],
       },

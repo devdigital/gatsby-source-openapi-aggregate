@@ -20,7 +20,7 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: `gatsby-source-openapi-aggregate`,
+      resolve: `../../../../../src`, // resolve executes from ./node_modules/gatsby/dist/bootstrap/load-plugins.js
       options: {
         specs: [
           {

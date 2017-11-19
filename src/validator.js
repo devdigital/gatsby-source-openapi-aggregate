@@ -116,15 +116,26 @@ export const flatten = (obj, path = null, result = []) => {
 
 // returns { isValid: boolean, errors: {} }
 // or { isValid: boolean, errors:[] } if flattenErrors
-export const verify = (schema, flattenErrors = false) => obj => {
+export const verify = (
+  schema,
+  flattenErrors = false,
+  unexpectedPropertyMessage = 'Unexpected property.'
+) => obj => {
   const diff = propertiesDiff(schema)(obj)
-  setAllProperties([['Unexpected property.']])(diff.properties)
+  setAllProperties([unexpectedPropertyMessage])(diff.properties)
 
   const objToValidate = deepmerge(nullify(schema), obj)
   const validation = spected(schema, objToValidate)
 
   const validationErrors = filterProperties(p => p !== true)(validation)
-  const errors = deepmerge(validationErrors, diff.properties)
+  let errors = deepmerge(validationErrors, diff.properties)
+
+  if (flattenErrors) {
+    errors = flatten(errors).map(e => ({
+      name: e.path,
+      messages: e.value
+    }))
+  }
 
   return {
     isValid: isValid(errors),

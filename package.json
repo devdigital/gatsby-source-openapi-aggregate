@@ -1,7 +1,8 @@
 {
   "name": "gatsby-source-openapi-aggregate",
   "version": "0.1.7",
-  "description": "Gatsby source plugin for pulling data into Gatsby from Open API/Swagger specifications",
+  "description":
+    "Gatsby source plugin for pulling data into Gatsby from Open API/Swagger specifications",
   "scripts": {
     "build": "babel ./src --out-dir . --ignore __tests__",
     "watch": "babel ./src -w . --out-dir . --ignore __tests__",
@@ -10,16 +11,10 @@
     "release": "standard-version"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      ".cache"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", ".cache"],
+    "verbose": true
   },
-  "keywords": [
-    "gatsby",
-    "gatsby-plugin",
-    "gatsby-source-plugin"
-  ],
+  "keywords": ["gatsby", "gatsby-plugin", "gatsby-source-plugin"],
   "author": "DevDigital <devdigital.cloud@gmail.com>",
   "license": "MIT",
   "dependencies": {

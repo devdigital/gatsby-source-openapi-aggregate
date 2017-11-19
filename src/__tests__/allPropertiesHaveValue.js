@@ -40,5 +40,14 @@ describe('allPropertiesHaveValue', () => {
     expect(result).toBe(true)
   })
 
-  it('should return false for scalar invalid value')
+  it('should return false for scalar invalid value', () => {
+    const result = allPropertiesHaveValue(5)({
+      foo: 5,
+      bar: 5,
+      baz: {
+        foo: 6
+      }
+    })
+    expect(result).toBe(false)
+  })
 })

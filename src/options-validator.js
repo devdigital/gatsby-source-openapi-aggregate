@@ -1,38 +1,19 @@
-import spected from 'spected'
-import deepmerge from 'deepmerge'
-import { map, always, filter, is } from 'ramda'
-import { isNonEmptyString, isFunction } from './utils'
+import { map, always } from 'ramda'
+import { isString, isFunction, notEmpty } from './utils'
+import { verify } from './validator'
 
-export const isValid = value => {
-  const a = filter(i => (i && isObject(i) ? !isValid(i) : i !== true), value)
-
-  return isEmpty(a)
-}
-
-const defaultOptions = {
-  specs: [{ name: null, resolve: null }]
-}
-
-const specRules = {
-  name: [[isNonEmptyString, 'name must be a non empty string']],
+export const specRules = {
+  name: [
+    [isString, 'name must be a string'],
+    [notEmpty, 'name must not be empty']
+  ],
   resolve: [[isFunction, 'resolve must be a function']]
 }
 
-const optionRules = {
-  specs: map(always(specRules)) // [[notEmptyArray, 'specs must be a non empty array']],
+export const optionRules = {
+  specs: map(always(specRules))
 }
 
-const optionsValidator = options => {
-  if (!options) {
-    throw new Error('No options specified.')
-  }
-
-  const optionsToValidate = deepmerge(defaultOptions, options)
-
-  console.log(optionsToValidate)
-  const validation = spected(optionRules, optionsToValidate)
-  console.log(validation)
-  console.log('validation', isValid(validation))
-}
+const optionsValidator = verify(optionRules, true)
 
 module.exports = optionsValidator

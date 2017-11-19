@@ -1,8 +1,11 @@
-import { isNonEmptyString, isFunction } from '../utils'
+import { isString, notEmpty, isFunction } from '../utils'
 import { verify } from '../validator'
 
 const schema = {
-  name: [[isNonEmptyString, 'name must be a non empty string']],
+  name: [
+    [isString, 'name must be a string'],
+    [notEmpty, 'name must not be empty']
+  ],
   resolve: [[isFunction, 'resolve must be a function']]
 }
 
@@ -30,10 +33,26 @@ describe('verify', () => {
     expect(result).toEqual({
       isValid: false,
       errors: {
-        foo: [['Unexpected property.']],
+        foo: ['Unexpected property.'],
         baz: {
-          foo: [['Unexpected property.']]
+          foo: ['Unexpected property.']
         }
+      }
+    })
+  })
+
+  it('should return merged errors', () => {
+    const result = verify(schema)({
+      name: '',
+      resolve: null,
+      foo: 'bar'
+    })
+    expect(result).toEqual({
+      isValid: false,
+      errors: {
+        name: ['name must not be empty'],
+        resolve: ['resolve must be a function'],
+        foo: ['Unexpected property.']
       }
     })
   })
@@ -52,11 +71,11 @@ describe('verify', () => {
       errors: [
         {
           name: 'foo',
-          messages: [['Unexpected property.']]
+          messages: ['Unexpected property.']
         },
         {
           name: 'baz.foo',
-          messages: [['Unexpected property.']]
+          messages: ['Unexpected property.']
         }
       ]
     })

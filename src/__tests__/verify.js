@@ -14,7 +14,7 @@ describe('verify', () => {
     })
     expect(result).toEqual({
       isValid: true,
-      errors: []
+      errors: {}
     })
   })
 
@@ -29,14 +29,34 @@ describe('verify', () => {
     })
     expect(result).toEqual({
       isValid: false,
+      errors: {
+        foo: [['Unexpected property.']],
+        baz: {
+          foo: [['Unexpected property.']]
+        }
+      }
+    })
+  })
+
+  it('should return error collection with flattenErrors flag', () => {
+    const result = verify(schema, true)({
+      name: 'name',
+      resolve: () => {},
+      foo: 'bar',
+      baz: {
+        foo: 'baz'
+      }
+    })
+    expect(result).toEqual({
+      isValid: false,
       errors: [
         {
           name: 'foo',
-          message: 'Unexpected property.'
+          messages: [['Unexpected property.']]
         },
         {
-          name: 'baz',
-          message: 'Unexpected property.'
+          name: 'baz.foo',
+          messages: [['Unexpected property.']]
         }
       ]
     })

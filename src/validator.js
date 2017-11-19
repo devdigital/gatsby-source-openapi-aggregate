@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge'
 import { filter, isEmpty } from 'ramda'
 import spected from 'spected'
 
-export const nulliate = (schema, obj = {}) => {
+export const nullify = (schema, obj = {}) => {
   if (!schema) {
     throw new Error('No schema specified.')
   }
@@ -15,7 +15,7 @@ export const nulliate = (schema, obj = {}) => {
   Object.keys(schema).forEach(p => {
     if (isObject(schema[p])) {
       obj[p] = {}
-      nulliate(schema[p], obj[p])
+      nullify(schema[p], obj[p])
       return
     }
     obj[p] = null
@@ -35,6 +35,40 @@ export const allPropertiesHaveValue = value => obj => {
   )
 
   return isEmpty(a)
+}
+
+export const setAllProperties = value => obj => {
+  if (!obj) {
+    throw new Error('No object specified.')
+  }
+
+  Object.keys(obj).forEach(p => {
+    if (isObject(obj[p])) {
+      setAllProperties(value)(obj[p])
+      return
+    }
+
+    obj[p] = value
+  })
+}
+
+export const filterProperties = predicate => (obj, result = {}) => {
+  if (!obj) {
+    throw new Error('No object specified.')
+  }
+
+  Object.keys(obj).forEach(p => {
+    if (isObject(obj[p])) {
+      filterProperties(predicate)(obj[p], result)
+      return
+    }
+
+    if (predicate(obj[p])) {
+      result[p] = obj[p]
+    }
+  })
+
+  return result
 }
 
 export const isValid = allPropertiesHaveValue(true)
@@ -84,18 +118,16 @@ export const flatten = (obj, path = null, result = []) => {
 // or { isValid: boolean, errors:[] } if flattenErrors
 export const verify = (schema, flattenErrors = false) => obj => {
   const diff = propertiesDiff(schema)(obj)
-  if (diff.additional) {
-    return {
-      isValid: false,
-      errors: []
-    }
-  }
+  setAllProperties([['Unexpected property.']])(diff.properties)
 
-  const objToValidate = deepmerge(nulliate(schema), obj)
+  const objToValidate = deepmerge(nullify(schema), obj)
   const validation = spected(schema, objToValidate)
 
+  const validationErrors = filterProperties(p => p !== true)(validation)
+  const errors = deepmerge(validationErrors, diff.properties)
+
   return {
-    isValid: isValid(validation),
-    errors: []
+    isValid: isValid(errors),
+    errors
   }
 }

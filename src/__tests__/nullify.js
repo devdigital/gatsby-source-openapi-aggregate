@@ -1,5 +1,5 @@
 import { isNonEmptyString, isFunction } from '../utils'
-import { nulliate, allPropertiesHaveValue } from '../validator'
+import { nullify, allPropertiesHaveValue } from '../validator'
 
 const schema = {
   name: [[isNonEmptyString, 'name must be a non empty string']],
@@ -12,9 +12,9 @@ const schema = {
   }
 }
 
-describe('nulliate', () => {
+describe('nullify', () => {
   it('should set all properties to null', () => {
-    const nulliated = nulliate(schema)
-    expect(allPropertiesHaveValue(null)(nulliated)).toBe(true)
+    const nullified = nullify(schema)
+    expect(allPropertiesHaveValue(null)(nullified)).toBe(true)
   })
 })

@@ -1018,10 +1018,6 @@ caniuse-lite@^1.0.30000760:
   version "1.0.30000760"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000760.tgz#ec720395742f1c7ec8947fd6dd2604e77a8f98ff"
 
-case@^1.2.1:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/case/-/case-1.5.4.tgz#b201642aae9e374feb5750d1181a76850153830c"
-
 caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
@@ -1574,10 +1570,6 @@ find-up@^2.0.0, find-up@^2.1.0:
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
   dependencies:
     locate-path "^2.0.0"
-
-fn-name@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-1.0.1.tgz#de8d8a15388b33cbf2145782171f73770c6030f0"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -2486,7 +2478,7 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "~3.0.0"
 
-lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.0, lodash@^4.17.4, lodash@^4.2.1:
+lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -2893,10 +2885,6 @@ private@^0.1.6, private@^0.1.7:
 process-nextick-args@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-1.0.7.tgz#150e20b756590ad3f91093f25a4f2ad8bff30ba3"
-
-property-expr@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/property-expr/-/property-expr-1.3.1.tgz#53f4af8ecd3c6db00ed98b8e0f6affbe880faa0a"
 
 prr@~0.0.0:
   version "0.0.0"
@@ -3374,10 +3362,6 @@ symbol-tree@^3.2.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
 
-synchronous-promise@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/synchronous-promise/-/synchronous-promise-1.0.18.tgz#936e8763e6554088cdcf78dc64f7473b972fcefc"
-
 tar-pack@^3.4.0:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/tar-pack/-/tar-pack-3.4.1.tgz#e1dbc03a9b9d3ba07e896ad027317eb679a10a1f"
@@ -3436,10 +3420,6 @@ to-fast-properties@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-1.0.3.tgz#b83571fa4d8c25b82e231b06e3a3055de4ca1a47"
 
-toposort@^0.2.10:
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/toposort/-/toposort-0.2.12.tgz#c7d2984f3d48c217315cc32d770888b779491e81"
-
 tough-cookie@^2.3.2, tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
@@ -3477,10 +3457,6 @@ type-check@~0.3.2:
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
   dependencies:
     prelude-ls "~1.1.2"
-
-type-name@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/type-name/-/type-name-2.0.2.tgz#efe7d4123d8ac52afff7f40c7e4dec5266008fb4"
 
 typedarray@^0.0.6:
   version "0.0.6"
@@ -3694,15 +3670,3 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-yup@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/yup/-/yup-0.23.0.tgz#5901e80bec60c65fcfe0267f382b8ab2b27aa168"
-  dependencies:
-    case "^1.2.1"
-    fn-name "~1.0.1"
-    lodash "^4.17.0"
-    property-expr "^1.2.0"
-    synchronous-promise "^1.0.18"
-    toposort "^0.2.10"
-    type-name "^2.0.1"

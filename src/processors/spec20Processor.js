@@ -1,4 +1,9 @@
-const spec20Processor = (name, spec) => {
+const swaggerClient = require('swagger-client')
+
+const spec20Processor = logger => async (name, spec) => {
+  const client = await swaggerClient({ spec })
+  logger(client.spec.paths)
+
   const rootId = `spec.${name}`
 
   const definitions = Object.keys(spec.definitions).map(d => {
@@ -15,10 +20,10 @@ const spec20Processor = (name, spec) => {
             name: k,
             type: property.type,
             description: property.description,
-            format: property.format,
+            format: property.format
           }
-        }),
-      },
+        })
+      }
     }
   })
 
@@ -40,7 +45,6 @@ const spec20Processor = (name, spec) => {
         }
 
         const definitionId = ref ? ref.replace('#/definitions/', '') : null
-
         return {
           id: `${rootId}.path.${p}.verb.${v}.response.${r}`,
           parent: `${rootId}.path.${p}.verb.${v}`,
@@ -49,8 +53,8 @@ const spec20Processor = (name, spec) => {
             : [],
           fields: {
             statusCode: r,
-            description: response.description,
-          },
+            description: response.description
+          }
         }
       })
 
@@ -69,8 +73,8 @@ const spec20Processor = (name, spec) => {
           description: path.description,
           parameters: path.parameters,
           tags: path.tags,
-          tag: path.tags ? path.tags.join(',') : null,
-        },
+          tag: path.tags ? path.tags.join(',') : null
+        }
       })
     })
   })
@@ -87,15 +91,15 @@ const spec20Processor = (name, spec) => {
       host: spec.host,
       schemes: spec.schemes,
       basePath: spec.basePath,
-      produces: spec.produces,
-    },
+      produces: spec.produces
+    }
   }
 
   return {
     information,
     paths,
     responses,
-    definitions,
+    definitions
   }
 }
 

@@ -1,5 +1,6 @@
 const crypto = require(`crypto`)
 const specProcessorFactory = require('./processors/factory')
+const loggerFactory = require('./logger-factory')
 
 const toHash = value => {
   return crypto
@@ -45,8 +46,8 @@ const toNode = (data, type) => {
       parent: data.parent ? `${openApiPrefix}${data.parent}` : null,
       children: data.children.map(c => `${openApiPrefix}${c}`),
       internal: {
-        type,
-      },
+        type
+      }
     },
     data.fields
   )
@@ -74,7 +75,9 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       jsonText = await spec.resolve()
     } catch (exception) {
       console.warn(
-        `There was an error resolving spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
+        `There was an error resolving spec '${spec.name}', ${exception.name} ${
+          exception.message
+        } ${exception.stack}`
       )
     }
 
@@ -83,9 +86,11 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
     }
 
     try {
-      const json = JSON.parse(jsonText)
-      const processor = specProcessorFactory(json)
-      const result = processor(spec.name, json)
+      const logger = loggerFactory('trace')('trace') // TODO: get log level from options
+
+      const specObj = JSON.parse(jsonText)
+      const processor = specProcessorFactory(logger)(specObj)
+      const result = await processor(spec.name, specObj)
 
       // { information, paths, responses, definitions }
       const nodes = []
@@ -105,7 +110,9 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       })
     } catch (exception) {
       console.warn(
-        `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
+        `There was an error processing spec '${spec.name}', ${exception.name} ${
+          exception.message
+        } ${exception.stack}`
       )
     }
   })

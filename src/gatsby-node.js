@@ -1,6 +1,7 @@
 const crypto = require(`crypto`)
 const specProcessorFactory = require('./processors/factory')
 const loggerFactory = require('./logger-factory')
+const getSpecs = require('./get-specs')
 
 const toHash = value => {
   return crypto
@@ -84,10 +85,9 @@ const createNodes = (specs, createNode) => {
   })
 }
 
-exports.sourceNodes = async ({ boundActionCreators, reporter }, options) => {
-  const { createNode } = boundActionCreators
-
-  console.log(reporter)
+exports.sourceNodes = async (foo, options) => {
+  console.log('foo', foo)
+  const { createNode } = foo.boundActionCreators
 
   const specs = await getSpecs(options)
   createNodes(specs, createNode)

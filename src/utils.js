@@ -1,16 +1,25 @@
-import { pipe, both, isEmpty, not, isNil } from 'ramda'
+const { pipe, both, isEmpty, not, isNil } = require('ramda')
 
-export const notEmpty = pipe(isEmpty, not)
+const notEmpty = pipe(isEmpty, not)
 
-export const notEmptyArray = both(notEmpty, Array.isArray)
+const notEmptyArray = both(notEmpty, Array.isArray)
 
-export const isString = v =>
+const isString = v =>
   !isNil(v) && Object.prototype.toString.call(v) === '[object String]'
 
-export const isNonEmptyString = both(notEmpty, isString)
+const isNonEmptyString = both(notEmpty, isString)
 
-export const isFunction = v =>
+const isFunction = v =>
   !isNil(v) && Object.prototype.toString.call(v) === '[object Function]'
 
-export const isObject = v =>
+const isObject = v =>
   !isNil(v) && Object.prototype.toString.call(v) === '[object Object]'
+
+module.exports = {
+  notEmpty,
+  notEmptyArray,
+  isString,
+  isNonEmptyString,
+  isFunction,
+  isObject,
+}

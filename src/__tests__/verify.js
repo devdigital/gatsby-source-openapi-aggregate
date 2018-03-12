@@ -4,20 +4,20 @@ import { verify } from '../validator'
 const schema = {
   name: [
     [isString, 'name must be a string'],
-    [notEmpty, 'name must not be empty']
+    [notEmpty, 'name must not be empty'],
   ],
-  resolve: [[isFunction, 'resolve must be a function']]
+  resolve: [[isFunction, 'resolve must be a function']],
 }
 
 describe('verify', () => {
   it('should return valid for satisfactory object', () => {
     const result = verify(schema)({
       name: 'name',
-      resolve: () => {}
+      resolve: () => {},
     })
     expect(result).toEqual({
       isValid: true,
-      errors: {}
+      errors: {},
     })
   })
 
@@ -27,17 +27,17 @@ describe('verify', () => {
       resolve: () => {},
       foo: 'bar',
       baz: {
-        foo: 'baz'
-      }
+        foo: 'baz',
+      },
     })
     expect(result).toEqual({
       isValid: false,
       errors: {
         foo: ['Unexpected property.'],
         baz: {
-          foo: ['Unexpected property.']
-        }
-      }
+          foo: ['Unexpected property.'],
+        },
+      },
     })
   })
 
@@ -45,39 +45,15 @@ describe('verify', () => {
     const result = verify(schema)({
       name: '',
       resolve: null,
-      foo: 'bar'
+      foo: 'bar',
     })
     expect(result).toEqual({
       isValid: false,
       errors: {
         name: ['name must not be empty'],
         resolve: ['resolve must be a function'],
-        foo: ['Unexpected property.']
-      }
-    })
-  })
-
-  it('should return error collection with flattenErrors flag', () => {
-    const result = verify(schema, true)({
-      name: 'name',
-      resolve: () => {},
-      foo: 'bar',
-      baz: {
-        foo: 'baz'
-      }
-    })
-    expect(result).toEqual({
-      isValid: false,
-      errors: [
-        {
-          name: 'foo',
-          messages: ['Unexpected property.']
-        },
-        {
-          name: 'baz.foo',
-          messages: ['Unexpected property.']
-        }
-      ]
+        foo: ['Unexpected property.'],
+      },
     })
   })
 })

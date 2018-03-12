@@ -1,9 +1,9 @@
-import { isObject } from './utils'
-import deepmerge from 'deepmerge'
-import { filter, isEmpty } from 'ramda'
-import spected from 'spected'
+const { isObject } = require('./utils')
+const deepmerge = require('deepmerge')
+const { filter, isEmpty } = require('ramda')
+const spected = require('spected').default
 
-export const nullify = (schema, obj = {}) => {
+const nullify = (schema, obj = {}) => {
   if (!schema) {
     throw new Error('No schema specified.')
   }
@@ -24,7 +24,7 @@ export const nullify = (schema, obj = {}) => {
   return obj
 }
 
-export const allPropertiesHaveValue = value => obj => {
+const allPropertiesHaveValue = value => obj => {
   if (!obj) {
     throw new Error('No object specified.')
   }
@@ -37,7 +37,7 @@ export const allPropertiesHaveValue = value => obj => {
   return isEmpty(a)
 }
 
-export const setAllProperties = value => obj => {
+const setAllProperties = value => obj => {
   if (!obj) {
     throw new Error('No object specified.')
   }
@@ -52,7 +52,7 @@ export const setAllProperties = value => obj => {
   })
 }
 
-export const filterProperties = predicate => (obj, result = {}) => {
+const filterProperties = predicate => (obj, result = {}) => {
   if (!obj) {
     throw new Error('No object specified.')
   }
@@ -71,11 +71,11 @@ export const filterProperties = predicate => (obj, result = {}) => {
   return result
 }
 
-export const isValid = allPropertiesHaveValue(true)
+const isValid = allPropertiesHaveValue(true)
 
 // return all properties in obj2, not in obj1
 // { additional: bool, properties: {} }
-export const propertiesDiff = obj1 => (obj2, properties = {}) => {
+const propertiesDiff = obj1 => (obj2, properties = {}) => {
   Object.keys(obj2).forEach(p => {
     if (isObject(obj2[p])) {
       if (!obj1.hasOwnProperty(p)) {
@@ -92,13 +92,13 @@ export const propertiesDiff = obj1 => (obj2, properties = {}) => {
 
   return {
     additional: !isEmpty(Object.keys(properties)),
-    properties
+    properties,
   }
 }
 
 // takes nested object and flattens to paths
 // { foo: { bar: 'value' }} => [ path: 'foo.bar', value: 'value' ]
-export const flatten = (obj, path = null, result = []) => {
+const flatten = (obj, path = null, result = []) => {
   Object.keys(obj).forEach(p => {
     if (isObject(obj[p])) {
       flatten(obj[p], path ? `${path}.${p}` : p, result)
@@ -107,7 +107,7 @@ export const flatten = (obj, path = null, result = []) => {
 
     result.push({
       path: path ? `${path}.${p}` : p,
-      value: obj[p]
+      value: obj[p],
     })
   })
 
@@ -115,10 +115,8 @@ export const flatten = (obj, path = null, result = []) => {
 }
 
 // returns { isValid: boolean, errors: {} }
-// or { isValid: boolean, errors:[] } if flattenErrors
-export const verify = (
+const verify = (
   schema,
-  flattenErrors = false,
   unexpectedPropertyMessage = 'Unexpected property.'
 ) => obj => {
   const diff = propertiesDiff(schema)(obj)
@@ -130,15 +128,45 @@ export const verify = (
   const validationErrors = filterProperties(p => p !== true)(validation)
   let errors = deepmerge(validationErrors, diff.properties)
 
-  if (flattenErrors) {
-    errors = flatten(errors).map(e => ({
-      name: e.path,
-      messages: e.value
-    }))
-  }
-
   return {
     isValid: isValid(errors),
-    errors
+    errors,
   }
+}
+
+// TODO: to rename all functions
+// converts { { } } to [{ name: '', messages: [''] }]
+const flattenErrors = errors => {
+  return flatten(errors).map(e => ({
+    name: e.path,
+    messages: e.value,
+  }))
+}
+
+// converts { { } } to [{ name: '', message: '' }]
+const flatErrors = verified => {
+  const results = []
+
+  const flat = flatten(errors)
+  flat.forEach(f => {
+    f.value.forEach(v => {
+      results.push({
+        name: f.path,
+        message: v,
+      })
+    })
+  })
+
+  return results
+}
+
+module.exports = {
+  nullify,
+  allPropertiesHaveValue,
+  propertiesDiff,
+  filterProperties,
+  flatten,
+  verify,
+  flattenErrors,
+  flatErrors,
 }

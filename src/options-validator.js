@@ -1,17 +1,17 @@
-import { map, always } from 'ramda'
-import { isString, isFunction, notEmpty } from './utils'
-import { verify } from './validator'
+const { map, always } = require('ramda')
+const { isString, isFunction, notEmpty } = require('./utils')
+const { verify } = require('./validator')
 
-export const specRules = {
+const specRules = {
   name: [
     [isString, 'name must be a string'],
-    [notEmpty, 'name must not be empty']
+    [notEmpty, 'name must not be empty'],
   ],
-  resolve: [[isFunction, 'resolve must be a function']]
+  resolve: [[isFunction, 'resolve must be a function']],
 }
 
-export const optionRules = {
-  specs: map(always(specRules))
+const optionRules = {
+  specs: map(always(specRules)),
 }
 
 const optionsValidator = verify(optionRules, true)

@@ -1,4 +1,4 @@
-import optionsValidator from './options-validator'
+const optionsValidator = require('./options-validator')
 
 const getSpecs = async options => {
   const valid = optionsValidator(options)
@@ -37,3 +37,5 @@ const getSpecs = async options => {
   //   }
   // })
 }
+
+module.exports = getSpecs

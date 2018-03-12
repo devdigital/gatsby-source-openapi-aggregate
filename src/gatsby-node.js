@@ -46,8 +46,8 @@ const toNode = (data, type) => {
       parent: data.parent ? `${openApiPrefix}${data.parent}` : null,
       children: data.children.map(c => `${openApiPrefix}${c}`),
       internal: {
-        type
-      }
+        type,
+      },
     },
     data.fields
   )
@@ -63,16 +63,14 @@ const toNode = (data, type) => {
   return node
 }
 
-exports.sourceNodes = async ({ boundActionCreators }, options) => {
-  const { createNode } = boundActionCreators
-
+const getSpecs = options => {
   // TODO: validate options [{ name, resolve }]
   // each name should be unique, only name and resolve properties should be present
   // also, resolve should be a function which returns a promise
   options.specs.forEach(async spec => {
-    let jsonText = null
+    let content = null
     try {
-      jsonText = await spec.resolve()
+      content = await spec.resolve()
     } catch (exception) {
       console.warn(
         `There was an error resolving spec '${spec.name}', ${exception.name} ${
@@ -86,28 +84,9 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
     }
 
     try {
-      const logger = loggerFactory('trace')('trace') // TODO: get log level from options
-
       const specObj = JSON.parse(jsonText)
       const processor = specProcessorFactory(logger)(specObj)
       const result = await processor(spec.name, specObj)
-
-      // { information, paths, responses, definitions }
-      const nodes = []
-      nodes.push(toNode(result.information, 'OpenApiSpec'))
-      result.paths.forEach(p => {
-        nodes.push(toNode(p, 'OpenApiSpecPath'))
-      })
-      result.responses.forEach(r => {
-        nodes.push(toNode(r, 'OpenApiSpecResponse'))
-      })
-      result.definitions.forEach(d => {
-        nodes.push(toNode(d, 'OpenApiSpecDefinition'))
-      })
-
-      nodes.forEach(n => {
-        createNode(n)
-      })
     } catch (exception) {
       console.warn(
         `There was an error processing spec '${spec.name}', ${exception.name} ${
@@ -116,4 +95,30 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       )
     }
   })
+}
+
+const createNodes = (specs, createNode) => {
+  // { information, paths, responses, definitions }
+  const nodes = []
+  nodes.push(toNode(result.information, 'OpenApiSpec'))
+  result.paths.forEach(p => {
+    nodes.push(toNode(p, 'OpenApiSpecPath'))
+  })
+  result.responses.forEach(r => {
+    nodes.push(toNode(r, 'OpenApiSpecResponse'))
+  })
+  result.definitions.forEach(d => {
+    nodes.push(toNode(d, 'OpenApiSpecDefinition'))
+  })
+
+  nodes.forEach(n => {
+    createNode(n)
+  })
+}
+
+exports.sourceNodes = async ({ boundActionCreators }, options) => {
+  const { createNode } = boundActionCreators
+
+  const specs = getSpecs(options)
+  createNodes(specs, createNode)
 }

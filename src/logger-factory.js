@@ -13,7 +13,22 @@ const loggerFactory = currentLogLevel => logLevel => {
     return message => {}
   }
 
-  return message => console.log(message)
+  return message => {
+    switch (logLevel) {
+      case 0:
+        console.log(message)
+        break
+      case 1:
+        console.log(message)
+        break
+      case 2:
+        console.warn(message)
+        break
+      case 3:
+        console.error(message)
+        break
+    }
+  }
 }
 
 module.exports = loggerFactory

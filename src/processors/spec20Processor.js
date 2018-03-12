@@ -1,9 +1,4 @@
-const swaggerClient = require('swagger-client')
-
 const spec20Processor = logger => async (name, spec) => {
-  const client = await swaggerClient({ spec })
-  logger(client.spec.paths)
-
   const rootId = `spec.${name}`
 
   const definitions = Object.keys(spec.definitions).map(d => {
@@ -20,10 +15,10 @@ const spec20Processor = logger => async (name, spec) => {
             name: k,
             type: property.type,
             description: property.description,
-            format: property.format
+            format: property.format,
           }
-        })
-      }
+        }),
+      },
     }
   })
 
@@ -53,8 +48,8 @@ const spec20Processor = logger => async (name, spec) => {
             : [],
           fields: {
             statusCode: r,
-            description: response.description
-          }
+            description: response.description,
+          },
         }
       })
 
@@ -73,8 +68,8 @@ const spec20Processor = logger => async (name, spec) => {
           description: path.description,
           parameters: path.parameters,
           tags: path.tags,
-          tag: path.tags ? path.tags.join(',') : null
-        }
+          tag: path.tags ? path.tags.join(',') : null,
+        },
       })
     })
   })
@@ -91,15 +86,15 @@ const spec20Processor = logger => async (name, spec) => {
       host: spec.host,
       schemes: spec.schemes,
       basePath: spec.basePath,
-      produces: spec.produces
-    }
+      produces: spec.produces,
+    },
   }
 
   return {
     information,
     paths,
     responses,
-    definitions
+    definitions,
   }
 }
 

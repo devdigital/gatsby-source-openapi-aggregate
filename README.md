@@ -195,3 +195,20 @@ export const query = graphql`
 In the above example, we're using the `$id` variable to retrieve the appropriate spec for that page. We're retreiving basic spec information (such as `version`, `title`, `description`) as well as the children paths for the spec, their associated properties, as well as each paths child responses and in turn their child definitions.
 
 Each path has a `tags` and `tag` field - `tags` is the original array of tags associated with the path. The `tag` field is a convenience comma separated string of all tags. If you wish to display paths by tag (like Swagger UI), then you can group on this `tag` field. See the full [sample](/sample) for details.
+
+## Development
+
+For developers, to run the local sample you will need to link the local plugin implementation to the `gatsby-source-openapi-aggregate` module.
+
+E.g. with `yarn`, you can do the following one off step:
+
+```
+cd src
+yarn link
+
+cd ..\sample
+yarn link gatsby-source-openapi-aggregate
+
+yarn develop
+open http://localhost:8000
+```

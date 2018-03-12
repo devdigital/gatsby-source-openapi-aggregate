@@ -1,18 +1,18 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require("fs");
+const path = require("path");
 
 const fromJson = filePath => {
   return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
-        reject(err)
-        return
+        reject(err);
+        return;
       }
 
-      resolve(data)
-    })
-  })
-}
+      resolve(data);
+    });
+  });
+};
 
 module.exports = {
   siteMetadata: {
@@ -20,18 +20,18 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: `../../../../../src`, // resolve executes from ./node_modules/gatsby/dist/bootstrap/load-plugins.js
+      resolve: `gatsby-source-openapi-aggregate`,
       options: {
         specs: [
           {
-            name: 'uber',
+            name: "uber",
             resolve: () =>
-              fromJson(path.resolve(__dirname, './data/swagger-uber.json'))
+              fromJson(path.resolve(__dirname, "./data/swagger-uber.json"))
           },
           {
-            name: 'pet-store',
+            name: "pet-store",
             resolve: () =>
-              fromJson(path.resolve(__dirname, './data/swagger-petstore.json'))
+              fromJson(path.resolve(__dirname, "./data/swagger-petstore.json"))
           }
         ]
       }

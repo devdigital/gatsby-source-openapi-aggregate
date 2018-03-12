@@ -4,38 +4,39 @@
   "version": "0.1.0",
   "author": "DevDigital <devdigital.cloud@gmail.com>",
   "dependencies": {
-    "gatsby": "^1.9.45",
-    "gatsby-link": "^1.6.17",
-    "gatsby-plugin-glamor": "^1.6.8",
-    "gatsby-plugin-react-helmet": "^1.0.5",
-    "gatsby-plugin-typography": "^1.7.10",
-    "gatsby-remark-copy-linked-files": "^1.5.7",
-    "gatsby-remark-prismjs": "^1.2.8",
-    "gatsby-remark-responsive-iframe": "^1.4.8",
-    "gatsby-remark-smartypants": "^1.4.8",
-    "gatsby-source-filesystem": "^1.5.2",
-    "gatsby-transformer-remark": "^1.7.15",
-    "glamorous": "^4.9.7",
+    "gatsby": "^1.9.231",
+    "gatsby-link": "^1.6.39",
+    "gatsby-plugin-glamor": "^1.6.13",
+    "gatsby-plugin-react-helmet": "^2.0.7",
+    "gatsby-plugin-typography": "^1.7.18",
+    "gatsby-remark-copy-linked-files": "^1.5.30",
+    "gatsby-remark-prismjs": "^1.2.17",
+    "gatsby-remark-responsive-iframe": "^1.4.18",
+    "gatsby-remark-smartypants": "^1.4.12",
+    "gatsby-source-filesystem": "^1.5.27",
+    "gatsby-transformer-remark": "^1.7.36",
+    "glamorous": "^4.12.0",
     "lodash.groupby": "^4.6.0",
     "lodash.rest": "^4.0.5",
-    "remark": "^8.0.0",
+    "remark": "^9.0.0",
     "remark-react": "^4.0.1",
     "typography-theme-alton": "^0.15.10",
     "typography-theme-kirkham": "^0.16.3",
     "typography-theme-twin-peaks": "^0.15.11"
   },
-  "keywords": ["gatsby"],
+  "keywords": [
+    "gatsby"
+  ],
   "license": "MIT",
   "main": "n/a",
   "scripts": {
     "develop": "gatsby develop",
     "build": "gatsby build",
-    "format":
-      "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
+    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
-    "gh-pages": "^1.0.0",
-    "prettier": "^1.6.1"
+    "gh-pages": "^1.1.0",
+    "prettier": "^1.11.1"
   }
 }

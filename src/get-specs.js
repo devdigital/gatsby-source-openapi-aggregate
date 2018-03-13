@@ -21,9 +21,7 @@ const validateOptions = options => {
 const getSpecs = async (options, logger) => {
   validateOptions(options)
 
-  const specs = []
-
-  await Promise.all(
+  return Promise.all(
     options.specs.map(async spec => {
       let content = null
       try {
@@ -35,14 +33,12 @@ const getSpecs = async (options, logger) => {
       }
 
       if (!content) {
-        return
+        return null
       }
 
       try {
-        const specObj = JSON.parse(content)
-        const processor = specProcessorFactory(logger)(specObj)
-        const result = await processor(spec.name, specObj)
-        specs.push(result)
+        const processor = specProcessorFactory(logger)(content)
+        return await processor(spec.name, content)
       } catch (exception) {
         logger.warning(
           `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
@@ -50,8 +46,6 @@ const getSpecs = async (options, logger) => {
       }
     })
   )
-
-  return specs
 }
 
 module.exports = getSpecs

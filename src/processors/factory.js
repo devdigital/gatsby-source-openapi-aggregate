@@ -1,11 +1,25 @@
 const spec20Processor = require('./spec20Processor')
 
-const specProcessorFactory = logger => spec => {
-  if (spec.swagger === '2.0') {
-    return spec20Processor(logger)
+const specProcessorFactory = logger => content => {
+  if (!logger) {
+    throw new Error(`No logger provided`)
   }
 
-  throw new Error(`Unsupported spec ${spec.swagger}`)
+  if (!content) {
+    throw new Error(`No content provided.`)
+  }
+
+  try {
+    const spec = JSON.parse(content)
+
+    if (spec.swagger === '2.0') {
+      return spec20Processor(logger)
+    }
+
+    throw new Error(`Unsupported JSON spec version ${spec.swagger}.`)
+  } catch (exception) {
+    throw new Error(`Expected content to be JSON.`)
+  }
 }
 
 module.exports = specProcessorFactory

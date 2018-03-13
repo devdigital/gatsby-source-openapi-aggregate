@@ -1,4 +1,6 @@
-const spec20Processor = logger => async (name, spec) => {
+const spec20Processor = logger => async (name, content) => {
+  const spec = JSON.parse(content)
+
   const rootId = `spec.${name}`
 
   const definitions = Object.keys(spec.definitions).map(d => {

@@ -1,5 +1,4 @@
 const crypto = require(`crypto`)
-const specProcessorFactory = require('./processors/factory')
 const loggerFactory = require('./logger-factory')
 const getSpecs = require('./get-specs')
 const omit = require('lodash.omit')

@@ -1,4 +1,5 @@
 const optionsValidator = require('./options-validator')
+const specProcessorFactory = require('./processors/factory')
 
 const displayErrors = (errors, logger) => {
   logger.error(
@@ -9,46 +10,48 @@ const displayErrors = (errors, logger) => {
   })
 }
 
-const getSpecs = async (options, logger) => {
-  console.log(options)
+const validateOptions = options => {
   const validation = optionsValidator(options)
   if (!validation.isValid) {
     displayErrors(validation.errors, logger)
     throw new Error('The provided options are invalid.')
   }
+}
 
-  return []
-  // TODO: validate options [{ name, resolve }]
-  // each name should be unique, only name and resolve properties should be present
-  // also, resolve should be a function which returns a promise
-  // options.specs.forEach(async spec => {
-  //   let content = null
-  //   try {
-  //     content = await spec.resolve()
-  //   } catch (exception) {
-  //     console.warn(
-  //       `There was an error resolving spec '${spec.name}', ${exception.name} ${
-  //         exception.message
-  //       } ${exception.stack}`
-  //     )
-  //   }
+const getSpecs = async (options, logger) => {
+  validateOptions(options)
 
-  //   if (jsonText === null) {
-  //     return
-  //   }
+  const specs = []
 
-  //   try {
-  //     const specObj = JSON.parse(jsonText)
-  //     const processor = specProcessorFactory(logger)(specObj)
-  //     const result = await processor(spec.name, specObj)
-  //   } catch (exception) {
-  //     console.warn(
-  //       `There was an error processing spec '${spec.name}', ${exception.name} ${
-  //         exception.message
-  //       } ${exception.stack}`
-  //     )
-  //   }
-  // })
+  await Promise.all(
+    options.specs.map(async spec => {
+      let content = null
+      try {
+        content = await spec.resolve()
+      } catch (exception) {
+        logger.warning(
+          `There was an error resolving spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
+        )
+      }
+
+      if (!content) {
+        return
+      }
+
+      try {
+        const specObj = JSON.parse(content)
+        const processor = specProcessorFactory(logger)(specObj)
+        const result = await processor(spec.name, specObj)
+        specs.push(result)
+      } catch (exception) {
+        logger.warning(
+          `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
+        )
+      }
+    })
+  )
+
+  return specs
 }
 
 module.exports = getSpecs

@@ -111,5 +111,5 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }, options) => {
 
   const cleanedOptions = omit(options, 'plugins')
   const specs = await getSpecs(cleanedOptions, reporterLogger(reporter))
-  createNodes(specs, createNode)
+  createNodes(specs.filter(s => s), createNode)
 }

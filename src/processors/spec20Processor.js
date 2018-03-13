@@ -1,5 +1,16 @@
-const spec20Processor = logger => async (name, content) => {
+const spec20Processor = async (content, context) => {
+  if (!content) {
+    throw new Error(`No content to process.`)
+  }
+
+  if (!context) {
+    throw new Error(`No context provided.`)
+  }
+
   const spec = JSON.parse(content)
+  if (spec.swagger !== '2.0') {
+    throw new Error(`Unsupported spec version '${spec.swagger}'.`)
+  }
 
   const rootId = `spec.${name}`
 

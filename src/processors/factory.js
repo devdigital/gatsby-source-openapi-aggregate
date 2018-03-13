@@ -1,12 +1,12 @@
 const spec20Processor = require('./spec20Processor')
 
-const specProcessorFactory = logger => content => {
-  if (!logger) {
-    throw new Error(`No logger provided`)
-  }
-
+const specProcessorFactory = (content, logger) => {
   if (!content) {
     throw new Error(`No content provided.`)
+  }
+
+  if (!logger) {
+    throw new Error(`No logger provided`)
   }
 
   try {

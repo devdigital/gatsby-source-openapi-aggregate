@@ -1,6 +1,6 @@
 const { map, always } = require('ramda')
 const { isString, isFunction, notEmpty } = require('./utils')
-const { verify } = require('./validator')
+const { verify, errorPerProperty } = require('./validator')
 
 const specRules = {
   name: [
@@ -14,6 +14,6 @@ const optionRules = {
   specs: map(always(specRules)),
 }
 
-const optionsValidator = verify(optionRules, true)
+const optionsValidator = verify(optionRules, errorPerProperty)
 
 module.exports = optionsValidator

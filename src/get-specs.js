@@ -1,8 +1,21 @@
 const optionsValidator = require('./options-validator')
 
-const getSpecs = async options => {
-  const valid = optionsValidator(options)
-  console.log(valid)
+const displayErrors = (errors, logger) => {
+  logger.error(
+    `The provided gatsby-source-openapi-aggregate options are invalid:`
+  )
+  errors.forEach(error => {
+    logger.error(`option: '${error.name}', error: ${error.messages.join(',')}`)
+  })
+}
+
+const getSpecs = async (options, logger) => {
+  console.log(options)
+  const validation = optionsValidator(options)
+  if (!validation.isValid) {
+    displayErrors(validation.errors, logger)
+    throw new Error('The provided options are invalid.')
+  }
 
   return []
   // TODO: validate options [{ name, resolve }]

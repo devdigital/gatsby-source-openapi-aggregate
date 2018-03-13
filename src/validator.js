@@ -117,8 +117,21 @@ const flatten = (obj, path = null, result = []) => {
 // returns { isValid: boolean, errors: {} }
 const verify = (
   schema,
+  errorFormatter = errors => errors,
   unexpectedPropertyMessage = 'Unexpected property.'
 ) => obj => {
+  if (!schema) {
+    throw new Error(`Attempting to verify a schema, but no schema provided.`)
+  }
+
+  if (!errorFormatter) {
+    throw new Error(`No error formatter provided.`)
+  }
+
+  if (!unexpectedPropertyMessage) {
+    throw new Error(``)
+  }
+
   const diff = propertiesDiff(schema)(obj)
   setAllProperties([unexpectedPropertyMessage])(diff.properties)
 
@@ -127,16 +140,19 @@ const verify = (
 
   const validationErrors = filterProperties(p => p !== true)(validation)
   let errors = deepmerge(validationErrors, diff.properties)
+  const valid = isValid(errors)
+
+  errors = errorFormatter(errors)
 
   return {
-    isValid: isValid(errors),
+    isValid: valid,
     errors,
   }
 }
 
 // TODO: to rename all functions
 // converts { { } } to [{ name: '', messages: [''] }]
-const flattenErrors = errors => {
+const errorPerProperty = errors => {
   return flatten(errors).map(e => ({
     name: e.path,
     messages: e.value,
@@ -144,7 +160,7 @@ const flattenErrors = errors => {
 }
 
 // converts { { } } to [{ name: '', message: '' }]
-const flatErrors = verified => {
+const errorPerMessage = verified => {
   const results = []
 
   const flat = flatten(errors)
@@ -162,11 +178,12 @@ const flatErrors = verified => {
 
 module.exports = {
   nullify,
+  setAllProperties,
   allPropertiesHaveValue,
   propertiesDiff,
   filterProperties,
   flatten,
   verify,
-  flattenErrors,
-  flatErrors,
+  errorPerProperty,
+  errorPerMessage,
 }

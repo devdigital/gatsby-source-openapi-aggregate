@@ -1,19 +1,22 @@
-const { map, always } = require('ramda')
-const { isString, isFunction, notEmpty } = require('./utils')
-const { verify, errorPerProperty } = require('./validator')
+import map from 'ramda/src/map'
+import always from 'ramda/src/always'
+import isRequired from 'inspected/validation/is-required'
+import isString from 'inspected/validation/is-string'
+import isFunction from 'inspected/validation/is-function'
+import validate from 'inspected/validate'
+import errorPerProperty from 'inspected/formatters/error-per-property'
 
-const specRules = {
-  name: [
-    [isString, 'name must be a string'],
-    [notEmpty, 'name must not be empty'],
-  ],
-  resolve: [[isFunction, 'resolve must be a function']],
+const specSchema = {
+  name: [[isRequired(isString), 'name is a required string']],
+  resolve: [[isRequired(isFunction), 'resolve is a required function']],
 }
 
-const optionRules = {
-  specs: map(always(specRules)),
+const optionsSchema = {
+  specs: map(always(specSchema)),
 }
 
-const optionsValidator = verify(optionRules, errorPerProperty)
+const optionsValidator = validate(optionsSchema, {
+  errorFormatter: errorPerProperty,
+})
 
 module.exports = optionsValidator

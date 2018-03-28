@@ -36,4 +36,13 @@ describe('spec20Processor', () => {
       `Unsupported spec version '${version}'.`
     )
   })
+
+  it('should return spec object when passed valid spec', async () => {
+    const content = {
+      swagger: '2.0',
+    }
+    await expect(spec20Processor(JSON.stringify(content), {})).resolves.toEqual(
+      {}
+    )
+  })
 })

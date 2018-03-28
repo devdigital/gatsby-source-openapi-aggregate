@@ -1,6 +1,5 @@
 const optionsValidator = require('./options-validator')
 const specProcessorFactory = require('./processors/factory')
-const actions = require('./actions')
 
 const displayErrors = (errors, logger) => {
   logger.error(
@@ -22,7 +21,6 @@ const validateOptions = options => {
 const getContext = (specName, logger) => ({
   name: specName,
   logger,
-  addDefinition: actions.addDefinition(specName),
 })
 
 const getSpecs = async (options, logger) => {

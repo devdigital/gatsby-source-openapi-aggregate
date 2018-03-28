@@ -15,6 +15,8 @@ const isFunction = v =>
 const isObject = v =>
   !isNil(v) && Object.prototype.toString.call(v) === '[object Object]'
 
+const isArrayOfType = type => both(Array.isArray)
+
 module.exports = {
   notEmpty,
   notEmptyArray,
@@ -22,4 +24,5 @@ module.exports = {
   isNonEmptyString,
   isFunction,
   isObject,
+  isArrayOfType,
 }

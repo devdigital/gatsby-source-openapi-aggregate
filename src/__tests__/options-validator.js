@@ -1,17 +1,4 @@
-import optionsValidator, { isValid } from '../options-validator'
-import { isNonEmptyString, isFunction } from '../utils'
-import { nulliate, allPropertiesHaveValue } from '../validator'
-
-const specRules = {
-  name: [[isNonEmptyString, 'name must be a non empty string']],
-  resolve: [[isFunction, 'resolve must be a function']],
-  foo: {
-    bar: [[isNonEmptyString, 'baz']],
-    baz: {
-      foo: [[isFunction, 'bar']]
-    }
-  }
-}
+import optionsValidator from '../options-validator'
 
 describe('optionsValidator', () => {
   it('should throw with no options', () => {
@@ -22,23 +9,23 @@ describe('optionsValidator', () => {
 
   it('should pass with valid specs', () => {
     const result = optionsValidator({
-      specs: [{ name: 'foo', resolve: () => {} }]
+      specs: [{ name: 'foo', resolve: () => {} }],
     })
 
     expect(result).toEqual({
       isValid: true,
-      errors: []
+      errors: [],
     })
   })
 
   it('should fail with invalid name', () => {
     const result = optionsValidator({
-      specs: [{ name: '', resolve: () => {} }]
+      specs: [{ name: '', resolve: () => {} }],
     })
 
     expect(result).toEqual({
       isValid: false,
-      errors: [{ name: 'name', messages: ['name must not be empty'] }]
+      errors: [{ name: 'name', messages: ['name must not be empty'] }],
     })
   })
 })

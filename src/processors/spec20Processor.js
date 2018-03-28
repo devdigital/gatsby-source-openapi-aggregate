@@ -1,4 +1,6 @@
-const spec20Processor = async (content, context) => {
+const getPaths = spec => {}
+
+const spec20Processor = async (content, { name, logger }) => {
   if (!content) {
     throw new Error(`No content to process.`)
   }
@@ -13,6 +15,18 @@ const spec20Processor = async (content, context) => {
   }
 
   const rootId = `spec.${name}`
+
+  return {
+    name,
+    version: spec.info ? spec.info.version : null,
+    title: spec.info ? spec.info.title : null,
+    description: spec.info ? spec.info.description : null,
+    host: spec.host,
+    schemes: spec.schemes,
+    basePath: spec.basePath,
+    produces: spec.produces,
+    paths: getPaths(spec),
+  }
 
   const definitions = Object.keys(spec.definitions).map(d => {
     const definition = spec.definitions[d]

@@ -8,6 +8,20 @@ describe('spec20Processor', () => {
     )
   })
 
+  it('should throw with empty string content', async () => {
+    await expect(spec20Processor('')).rejects.toHaveProperty(
+      'message',
+      'No content to process.'
+    )
+  })
+
+  it('should throw with non string content', async () => {
+    await expect(spec20Processor([])).rejects.toHaveProperty(
+      'message',
+      'No content to process.'
+    )
+  })
+
   it('should throw with no context', async () => {
     const content = {
       bar: 'foo',

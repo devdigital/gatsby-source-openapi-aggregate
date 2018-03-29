@@ -1,7 +1,7 @@
-const crypto = require(`crypto`)
-const loggerFactory = require('./logger-factory')
-const getSpecs = require('./get-specs')
-const omit = require('lodash.omit')
+import crypto from 'crypto'
+import loggerFactory from './logger-factory'
+import getSpecs from './get-specs'
+import omit from 'lodash.omit'
 
 const toHash = value => {
   return crypto
@@ -85,31 +85,29 @@ const createNodes = (specs, createNode) => {
   })
 }
 
-// Mirrors the functionality of yurnalist
-const defaultReporter = {
-  log: message => console.log(message),
-  info: message => console.log(message),
-  warn: message => console.warn(message),
-  error: message => console.error(message),
-  success: message => console.log(message),
+const validateSpecs = specs => {
+  specs.forEach(spec => {
+    const result = specValidator(spec)
+    if (!result.isValid) {
+      const message = `There are errors with the ${spec.name} spec.`
+      // TODO: add error messages
+      throw new Error(message)
+    }
+  })
 }
 
-// Gatsby uses yurnalist (https://github.com/0x80/yurnalist) for reporting
-const reporterLogger = reporter => {
-  const logger = reporter || defaultReporter
-  return {
-    trace: message => logger.log(message),
-    info: message => logger.info(message),
-    warning: message => logger.warn(message),
-    error: message => logger.error(message),
-    success: message => logger.success(message),
-  }
-}
+const getNodes = () => []
 
 exports.sourceNodes = async ({ boundActionCreators, reporter }, options) => {
   const { createNode } = boundActionCreators
 
   const cleanedOptions = omit(options, 'plugins')
+
   const specs = await getSpecs(cleanedOptions, reporterLogger(reporter))
-  createNodes(specs.filter(s => s), createNode)
+  validateSpecs(specs)
+  const nodes = getNodes(specs)
+
+  nodes.forEach(node => {
+    createNode(node)
+  })
 }

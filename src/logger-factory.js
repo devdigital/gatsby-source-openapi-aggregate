@@ -1,33 +1,21 @@
-const logLevels = new Map()
+// Mirrors the functionality of yurnalist
+const defaultReporter = {
+  log: message => console.log(message),
+  info: message => console.log(message),
+  warn: message => console.warn(message),
+  error: message => console.error(message),
+  success: message => console.log(message),
+}
 
-logLevels.set('trace', 0)
-logLevels.set('information', 1)
-logLevels.set('warning', 2)
-logLevels.set('error', 3)
-
-const loggerFactory = currentLogLevel => logLevel => {
-  const currentLogLevelValue = logLevels.get(currentLogLevel) || 1
-  const logLevelValue = logLevels.get(logLevel) || 1
-
-  if (currentLogLevelValue > logLevel) {
-    return message => {}
-  }
-
-  return message => {
-    switch (logLevel) {
-      case 0:
-        console.log(message)
-        break
-      case 1:
-        console.log(message)
-        break
-      case 2:
-        console.warn(message)
-        break
-      case 3:
-        console.error(message)
-        break
-    }
+// Gatsby uses yurnalist (https://github.com/0x80/yurnalist) for reporting
+const loggerFactory = reporter => {
+  const logger = reporter || defaultReporter
+  return {
+    trace: message => logger.log(message),
+    info: message => logger.info(message),
+    warning: message => logger.warn(message),
+    error: message => logger.error(message),
+    success: message => logger.success(message),
   }
 }
 

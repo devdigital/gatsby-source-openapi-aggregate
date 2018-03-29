@@ -1,7 +1,17 @@
+import isString from 'inspected/schema/is-string'
+import isRequired from 'inspected/schema/is-required'
+
 const getPaths = spec => {}
 
-const spec20Processor = async (content, { name, logger }) => {
-  if (!content) {
+// Specifications
+// v2 - https://swagger.io/docs/specification/2-0/basic-structure/
+// v3 - https://swagger.io/docs/specification/basic-structure/
+
+// Examples
+// v2 - https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v2.0/json
+// v3 - https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v3.0
+const spec20Processor = async (content, context) => {
+  if (!isRequired(isString)(content)) {
     throw new Error(`No content to process.`)
   }
 
@@ -16,8 +26,7 @@ const spec20Processor = async (content, { name, logger }) => {
 
   const rootId = `spec.${name}`
 
-  return {
-    name,
+  const information = {
     version: spec.info ? spec.info.version : null,
     title: spec.info ? spec.info.title : null,
     description: spec.info ? spec.info.description : null,
@@ -25,7 +34,10 @@ const spec20Processor = async (content, { name, logger }) => {
     schemes: spec.schemes,
     basePath: spec.basePath,
     produces: spec.produces,
-    paths: getPaths(spec),
+  }
+
+  return {
+    information,
   }
 
   const definitions = Object.keys(spec.definitions).map(d => {

@@ -55,7 +55,7 @@ const getSpecs = async (options, logger) => {
         )
       }
     })
-  )
+  ).filter(s => s)
 }
 
 module.exports = getSpecs

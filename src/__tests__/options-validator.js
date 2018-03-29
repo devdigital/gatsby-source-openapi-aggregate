@@ -1,4 +1,4 @@
-import optionsValidator from '../options-validator'
+import optionsValidator from '../validators/options-validator'
 
 describe('optionsValidator', () => {
   it('should throw with no options', () => {
@@ -25,7 +25,9 @@ describe('optionsValidator', () => {
 
     expect(result).toEqual({
       isValid: false,
-      errors: [{ name: 'name', messages: ['name must not be empty'] }],
+      errors: [
+        { name: 'specs.0.name', messages: ['name is a required string'] },
+      ],
     })
   })
 })

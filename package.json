@@ -18,15 +18,11 @@
   "author": "DevDigital <devdigital.cloud@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "babel-runtime": "6.26.0",
-    "deepmerge": "2.1.0",
-    "lodash.omit": "^4.5.0",
-    "spected": "0.7.0"
+    "inspected": "^0.2.3"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "cross-env": "5.1.4",
     "jest": "21.2.1",

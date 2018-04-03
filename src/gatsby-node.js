@@ -117,7 +117,6 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }, options) => {
   const specs = await getSpecs(cleanedOptions, loggerFactory(reporter))
   const specsToProcess = specs.filter(s => s)
   validateSpecs(specsToProcess)
-  console.log('specs', specsToProcess)
 
   const nodes = getNodes(specsToProcess)
   nodes.forEach(node => {

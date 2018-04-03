@@ -1,17 +1,17 @@
-import map from 'ramda/src/map'
-import always from 'ramda/src/always'
+const map = require('ramda/src/map')
+const always = require('ramda/src/always')
 
-import isOptional from 'inspected/schema/is-optional'
-import isRequired from 'inspected/schema/is-required'
-import isFunction from 'inspected/schema/is-function'
-import isString from 'inspected/schema/is-string'
-import isArray from 'inspected/schema/is-array'
+const isOptional = require('inspected/schema/is-optional').default
+const isRequired = require('inspected/schema/is-required').default
+const isFunction = require('inspected/schema/is-function').default
+const isString = require('inspected/schema/is-string').default
+const isArray = require('inspected/schema/is-array').default
 
-import validate from 'inspected/validate'
-import errorPerProperty from 'inspected/formatters/error-per-property'
+const validate = require('inspected/validate').default
+const errorPerProperty = require('inspected/formatters/error-per-property')
+  .default
 
 const informationSchema = {
-  name: [[isRequired(isString), 'name is a required string']],
   title: [[isRequired(isString), 'title is a required string']],
   description: [[isOptional(isString), 'description is an optional string']],
   version: [[isRequired(isString), 'version must be a string']],
@@ -23,6 +23,7 @@ const informationSchema = {
 }
 
 const specSchema = {
+  name: [[isRequired(isString), 'name is a required string']],
   information: informationSchema,
 }
 
@@ -30,4 +31,4 @@ const specValidator = validate(specSchema, {
   errorFormatter: errorPerProperty,
 })
 
-module.exports = specValidator
+exports.specValidator = specValidator

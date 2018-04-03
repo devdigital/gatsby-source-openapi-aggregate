@@ -1,4 +1,4 @@
-const spec20Processor = require('./spec20Processor')
+const { spec20Processor } = require('./spec20Processor')
 
 const specProcessorFactory = (content, context) => {
   if (!content) {
@@ -13,7 +13,7 @@ const specProcessorFactory = (content, context) => {
     const spec = JSON.parse(content)
 
     if (spec.swagger === '2.0') {
-      return spec20Processor(content, context)
+      return spec20Processor
     }
 
     throw new Error(`Unsupported JSON spec version ${spec.swagger}.`)
@@ -22,4 +22,4 @@ const specProcessorFactory = (content, context) => {
   }
 }
 
-module.exports = specProcessorFactory
+exports.specProcessorFactory = specProcessorFactory

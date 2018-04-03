@@ -1,7 +1,8 @@
-import crypto from 'crypto'
-import loggerFactory from './logger-factory'
-import getSpecs from './get-specs'
-import omit from 'lodash.omit'
+const crypto = require('crypto')
+const omit = require('lodash.omit')
+const { loggerFactory } = require('./logger-factory')
+const { getSpecs } = require('./get-specs')
+const { specValidator } = require('./validators/spec-validator')
 
 const toHash = value => {
   return crypto
@@ -89,24 +90,36 @@ const validateSpecs = specs => {
   specs.forEach(spec => {
     const result = specValidator(spec)
     if (!result.isValid) {
-      const message = `There are errors with the ${spec.name} spec.`
-      // TODO: add error messages
+      const errors = result.errors.map(
+        e => `name: ${e.name}, error: ${e.messages.join(',')}\n`
+      )
+      const message = `There are errors with the ${spec.name} spec.\n${errors.join(
+        '\n'
+      )}`
       throw new Error(message)
     }
   })
 }
 
-const getNodes = () => []
+const getNodes = specs => {
+  specs.forEach(spec => {
+    const rootId = `spec.${spec.name}`
+  })
+
+  return []
+}
 
 exports.sourceNodes = async ({ boundActionCreators, reporter }, options) => {
   const { createNode } = boundActionCreators
 
   const cleanedOptions = omit(options, 'plugins')
 
-  const specs = await getSpecs(cleanedOptions, reporterLogger(reporter))
-  validateSpecs(specs)
-  const nodes = getNodes(specs)
+  const specs = await getSpecs(cleanedOptions, loggerFactory(reporter))
+  const specsToProcess = specs.filter(s => s)
+  validateSpecs(specsToProcess)
+  console.log('specs', specsToProcess)
 
+  const nodes = getNodes(specsToProcess)
   nodes.forEach(node => {
     createNode(node)
   })

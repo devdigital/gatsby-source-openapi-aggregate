@@ -31,4 +31,4 @@ const loggerFactory = currentLogLevel => logLevel => {
   }
 }
 
-module.exports = loggerFactory
+exports.loggerFactory = loggerFactory

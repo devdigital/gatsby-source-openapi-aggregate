@@ -1,12 +1,13 @@
-import map from 'ramda/src/map'
-import always from 'ramda/src/always'
+const map = require('ramda/src/map')
+const always = require('ramda/src/always')
 
-import isRequired from 'inspected/schema/is-required'
-import isFunction from 'inspected/schema/is-function'
-import isString from 'inspected/schema/is-string'
+const isRequired = require('inspected/schema/is-required').default
+const isFunction = require('inspected/schema/is-function').default
+const isString = require('inspected/schema/is-string').default
 
-import validate from 'inspected/validate'
-import errorPerProperty from 'inspected/formatters/error-per-property'
+const validate = require('inspected/validate').default
+const errorPerProperty = require('inspected/formatters/error-per-property')
+  .default
 
 const specSchema = {
   name: [[isRequired(isString), 'name is a required string']],
@@ -21,4 +22,4 @@ const optionsValidator = validate(optionsSchema, {
   errorFormatter: errorPerProperty,
 })
 
-module.exports = optionsValidator
+exports.optionsValidator = optionsValidator

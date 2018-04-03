@@ -1,5 +1,5 @@
-const optionsValidator = require('./options-validator')
-const specProcessorFactory = require('./processors/factory')
+const { optionsValidator } = require('./validators/options-validator')
+const { specProcessorFactory } = require('./processors/factory')
 
 const displayErrors = (errors, logger) => {
   logger.error(
@@ -17,11 +17,6 @@ const validateOptions = options => {
     throw new Error('The provided options are invalid.')
   }
 }
-
-const getContext = (specName, logger) => ({
-  name: specName,
-  logger,
-})
 
 const getSpecs = async (options, logger) => {
   validateOptions(options)
@@ -42,20 +37,23 @@ const getSpecs = async (options, logger) => {
       }
 
       try {
-        const processor = specProcessorFactory(content, logger)
+        const processor = specProcessorFactory(content, { logger })
 
         if (!processor) {
           throw new Error(`No processor found for ${spec.name} content.`)
         }
 
-        return await processor(content, getContext(spec.name, logger))
+        return await processor(content, {
+          name: spec.name,
+          logger,
+        })
       } catch (exception) {
         logger.warning(
           `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
         )
       }
     })
-  ).filter(s => s)
+  )
 }
 
-module.exports = getSpecs
+exports.getSpecs = getSpecs

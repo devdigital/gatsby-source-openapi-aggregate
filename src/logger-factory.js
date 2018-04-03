@@ -19,4 +19,4 @@ const loggerFactory = reporter => {
   }
 }
 
-module.exports = loggerFactory
+exports.loggerFactory = loggerFactory

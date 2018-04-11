@@ -101,11 +101,15 @@ const validateSpecs = specs => {
   })
 }
 
-const getNodes = specs => {
+const getNodeDefinitions = specs => {
   specs.forEach(spec => {
     const rootId = `spec.${spec.name}`
   })
 
+  return []
+}
+
+const getNodes = specs => {
   return []
 }
 
@@ -118,8 +122,10 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }, options) => {
   const specsToProcess = specs.filter(s => s)
   validateSpecs(specsToProcess)
 
-  const nodes = getNodes(specsToProcess)
-  nodes.forEach(node => {
-    createNode(node)
-  })
+  // const nodeDefinitions = getNodeDefinitions(specsToProcess)
+  // const nodes = getNodes(nodeDefinitions)
+
+  // nodes.forEach(node => {
+  //   createNode(node)
+  // })
 }

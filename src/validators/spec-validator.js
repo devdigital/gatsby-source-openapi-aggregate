@@ -12,6 +12,7 @@ const errorPerProperty = require('inspected/formatters/error-per-property')
   .default
 
 const informationSchema = {
+  name: [[isRequired(isString), 'name is a required string']],
   title: [[isRequired(isString), 'title is a required string']],
   description: [[isOptional(isString), 'description is an optional string']],
   version: [[isRequired(isString), 'version must be a string']],
@@ -23,7 +24,6 @@ const informationSchema = {
 }
 
 const specSchema = {
-  name: [[isRequired(isString), 'name is a required string']],
   information: informationSchema,
 }
 

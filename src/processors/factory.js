@@ -1,4 +1,4 @@
-const { spec20Processor } = require('./spec20Processor')
+const { spec20Processor } = require('./spec-20/index')
 
 const specProcessorFactory = (content, context) => {
   if (!content) {

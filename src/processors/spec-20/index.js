@@ -86,16 +86,12 @@ const resolveReference = (definitions, ref) => {
 const getResponseDetails = (responses, responseId, response) => {
   if (isReferenceObject(response)) {
     const ref = response['$ref']
-    return {
+    return Object.assign({}, resolveReference(responses, ref), {
       id: getReferenceId(ref),
-      ...resolveReference(responses, ref),
-    }
+    })
   }
 
-  return {
-    id: responseId,
-    ...response,
-  }
+  return Object.assign({}, response, { id: responseId })
 }
 
 const getResponses = spec => {

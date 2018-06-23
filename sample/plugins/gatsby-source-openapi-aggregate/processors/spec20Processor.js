@@ -16,6 +16,7 @@ const spec20Processor = (name, spec) => {
             type: property.type,
             description: property.description,
             format: property.format,
+            example: property.example,
           }
         }),
       },

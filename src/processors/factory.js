@@ -1,4 +1,5 @@
-const { spec20Processor } = require('./spec-20/index')
+const { swaggerParserProcessor } = require('./swagger-parser/index')
+const { oaiTsCoreProcessor } = require('./oai-ts-core/index')
 
 const specProcessorFactory = (content, context) => {
   if (!content) {
@@ -9,17 +10,7 @@ const specProcessorFactory = (content, context) => {
     throw new Error(`No context provided`)
   }
 
-  try {
-    const spec = JSON.parse(content)
-
-    if (spec.swagger === '2.0') {
-      return spec20Processor
-    }
-
-    throw new Error(`Unsupported JSON spec version ${spec.swagger}.`)
-  } catch (exception) {
-    throw new Error(`Expected content to be JSON.`)
-  }
+  return swaggerParserProcessor
 }
 
 exports.specProcessorFactory = specProcessorFactory

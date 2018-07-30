@@ -83,6 +83,7 @@ const resolveReference = (definitions, ref) => {
   throw new Error(`Reference value of ${ref} not currently supported.`)
 }
 
+// => 
 const getResponseDetails = (responses, responseId, response) => {
   if (isReferenceObject(response)) {
     const ref = response['$ref']
@@ -102,7 +103,7 @@ const getResponses = spec => {
       const path = spec.paths[p][v]
       const pathResponses = Object.keys(path.responses).map(r => {
         const response = path.responses[r]
-        const responseDetails = getResponseDetails(spec.responses, response)
+        const responseDetails = getResponseDetails(spec.responses, ``. response)
 
         const existingResponse = responses.find(
           r => r.id === responseDetails.id

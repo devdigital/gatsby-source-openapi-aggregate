@@ -60,8 +60,8 @@
           }
         ],
         "responses": {
-          "405": {
-            "description": "Invalid input"
+          "401": {
+            "$ref": "#/definitions/Response"
           }
         },
         "security": [
@@ -730,6 +730,15 @@
     }
   },
   "definitions": {
+    "Response": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/definitions/Order"
+          }
+        }
+      }
+    },
     "Order": {
       "type": "object",
       "properties": {

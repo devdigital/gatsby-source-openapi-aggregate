@@ -19,23 +19,25 @@ module.exports = {
     title: `OpenAPI Aggregate`,
   },
   plugins: [
-    // {
-    //   resolve: `gatsby-source-openapi-aggregate`,
-    //   options: {
-    //     specs: [
-    //       {
-    //         name: 'uber',
-    //         resolve: () =>
-    //           fromFile(path.resolve(__dirname, './data/swagger-uber.json')),
-    //       },
-    //       {
-    //         name: 'pet-store',
-    //         resolve: () =>
-    //           fromFile(path.resolve(__dirname, './data/swagger-petstore.json')),
-    //       },
-    //     ],
-    //   },
-    // },
+    {
+      resolve: `gatsby-source-openapi-aggregate`,
+      options: {
+        specs: [
+          {
+            name: 'uber',
+            resolve: () =>
+              fromFile(path.resolve(__dirname, './data/swagger-uber.json')),
+            options: {},
+          },
+          {
+            name: 'pet-store',
+            resolve: () =>
+              fromFile(path.resolve(__dirname, './data/swagger-petstore.json')),
+            options: {},
+          },
+        ],
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

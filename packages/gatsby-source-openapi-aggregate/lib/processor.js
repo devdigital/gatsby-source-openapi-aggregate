@@ -13,10 +13,12 @@ const processor = logger => async spec => {
     resolver: specOptions.resolver,
   }
 
-  console.log(parseOptions, content)
-  const result = await parse(parseOptions)(content)
+  const schema = await parse(parseOptions)(content)
   // TODO: convert to { ... } structure
-  return result
+  return {
+    info: spec,
+    schema,
+  }
 }
 
 module.exports.processor = processor

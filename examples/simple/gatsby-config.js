@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const fromFile = filePath => {
+const fromFile = filePath => () => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
@@ -9,7 +9,8 @@ const fromFile = filePath => {
         return
       }
 
-      resolve(data)
+      const spec = JSON.parse(data)
+      resolve(spec)
     })
   })
 }
@@ -23,17 +24,36 @@ module.exports = {
       resolve: `gatsby-source-openapi-aggregate`,
       options: {
         specs: [
+          // {
+          //   name: 'uber',
+          //   resolve: fromFile(
+          //     path.resolve(__dirname, './specs/v2.0/json/uber.json')
+          //   ),
+          //   options: {},
+          // },
+          // {
+          //   name: 'pet-store',
+          //   resolve: fromFile(
+          //     path.resolve(__dirname, './specs/v2.0/json/petstore.json')
+          //   ),
+          //   options: {},
+          // },
           {
-            name: 'uber',
-            resolve: () =>
-              fromFile(path.resolve(__dirname, './data/swagger-uber.json')),
-            options: {},
-          },
-          {
-            name: 'pet-store',
-            resolve: () =>
-              fromFile(path.resolve(__dirname, './data/swagger-petstore.json')),
-            options: {},
+            name: 'pet-store-separate',
+            resolve: fromFile(
+              path.resolve(
+                __dirname,
+                './specs/v2/json/petstore-separate/spec/swagger.json'
+              )
+            ),
+            options: {
+              basePath: './specs/v2/json/petstore-separate/spec/',
+              resolver: {
+                canResolve: info => console.log('canResolve', info) || true,
+                resolve: async info =>
+                  console.log('resolve', info) || (await asJson(info.path)),
+              },
+            },
           },
         ],
       },

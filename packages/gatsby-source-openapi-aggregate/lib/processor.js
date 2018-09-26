@@ -13,7 +13,7 @@ const processor = logger => async spec => {
     resolver: specOptions.resolver,
   }
 
-  console.log(parseOptions)
+  console.log(parseOptions, content)
   const result = await parse(parseOptions)(content)
   // TODO: convert to { ... } structure
   return result

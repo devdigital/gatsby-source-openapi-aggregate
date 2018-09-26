@@ -1,8 +1,10 @@
 import React from 'react'
 import g from 'glamorous'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import Specs from '~/spec/Specs'
 import { rhythm } from '~/utils/typography'
+import Layout from '~/components/Layout'
+import { graphql } from 'gatsby'
 
 const toPost = edge => ({
   slug: edge.node.fields.slug,
@@ -31,7 +33,7 @@ export default ({ data }) => {
   const specs = data.allOpenApiSpec.edges.map(e => e.node)
 
   return (
-    <div>
+    <Layout>
       <h2>Specs</h2>
       <Specs specs={specs} />
       <hr />
@@ -45,7 +47,7 @@ export default ({ data }) => {
           excerpt={p.excerpt}
         />
       ))}
-    </div>
+    </Layout>
   )
 }
 

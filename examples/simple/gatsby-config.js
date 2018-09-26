@@ -19,23 +19,23 @@ module.exports = {
     title: `OpenAPI Aggregate`,
   },
   plugins: [
-    {
-      resolve: `gatsby-source-openapi-aggregate`,
-      options: {
-        specs: [
-          {
-            name: 'uber',
-            resolve: () =>
-              fromFile(path.resolve(__dirname, './data/swagger-uber.json')),
-          },
-          {
-            name: 'pet-store',
-            resolve: () =>
-              fromFile(path.resolve(__dirname, './data/swagger-petstore.json')),
-          },
-        ],
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-openapi-aggregate`,
+    //   options: {
+    //     specs: [
+    //       {
+    //         name: 'uber',
+    //         resolve: () =>
+    //           fromFile(path.resolve(__dirname, './data/swagger-uber.json')),
+    //       },
+    //       {
+    //         name: 'pet-store',
+    //         resolve: () =>
+    //           fromFile(path.resolve(__dirname, './data/swagger-petstore.json')),
+    //       },
+    //     ],
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -47,6 +47,12 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 590,
+            },
+          },
           {
             resolve: `gatsby-remark-responsive-iframe`,
             options: {

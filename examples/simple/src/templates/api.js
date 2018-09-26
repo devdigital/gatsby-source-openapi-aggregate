@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import groupBy from 'lodash.groupby'
 import SpecInformation from '~/spec/SpecInformation'
 import SpecPaths from '~/spec/SpecPaths'
 import g from 'glamorous'
+import { graphql } from 'gatsby'
 
 const backStyle = {
   marginBottom: '1rem',

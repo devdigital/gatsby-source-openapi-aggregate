@@ -24,45 +24,55 @@ module.exports = {
       resolve: `gatsby-source-openapi-aggregate`,
       options: {
         specs: [
+          // {
+          //   name: 'uber',
+          //   resolve: () =>
+          //     fromFile(path.resolve(__dirname, './specs/v2.0/json/uber.json')),
+          // },
+          // {
+          //   name: 'pet-store',
+          //   resolve: () =>
+          //     fromFile(
+          //       path.resolve(__dirname, './specs/v2.0/json/petstore.json')
+          //     ),
+          // },
+          // {
+          //   name: 'pet-store-expanded',
+          //   resolve: () =>
+          //     fromFile(
+          //       path.resolve(
+          //         __dirname,
+          //         './specs/v2.0/json/petstore-expanded.json'
+          //       )
+          //     ),
+          // },
+          // {
+          //   name: 'pet-store-separate',
+          //   resolve: () =>
+          //     fromFile(
+          //       path.resolve(
+          //         __dirname,
+          //         './specs/v2.0/json/petstore-separate/spec/swagger.json'
+          //       )
+          //     ),
+          //   options: {
+          //     basePath: './specs/v2.0/json/petstore-separate/spec/',
+          //     resolver: {
+          //       canResolve: () => true,
+          //       resolve: info => fromFile(info.path),
+          //     },
+          //   },
+          // },
           {
-            name: 'uber',
+            name: 'v3-api-with-examples',
             resolve: () =>
-              fromFile(path.resolve(__dirname, './specs/v2.0/json/uber.json')),
+              path.resolve(__dirname, './specs/v3.0/api-with-examples.yaml'),
           },
-          {
-            name: 'pet-store',
-            resolve: () =>
-              fromFile(
-                path.resolve(__dirname, './specs/v2.0/json/petstore.json')
-              ),
-          },
-          {
-            name: 'pet-store-expanded',
-            resolve: () =>
-              fromFile(
-                path.resolve(
-                  __dirname,
-                  './specs/v2.0/json/petstore-expanded.json'
-                )
-              ),
-          },
-          {
-            name: 'pet-store-separate',
-            resolve: () =>
-              fromFile(
-                path.resolve(
-                  __dirname,
-                  './specs/v2.0/json/petstore-separate/spec/swagger.json'
-                )
-              ),
-            options: {
-              basePath: './specs/v2.0/json/petstore-separate/spec/',
-              resolver: {
-                canResolve: () => true,
-                resolve: info => fromFile(info.path),
-              },
-            },
-          },
+          // {
+          //   name: 'v3-petstore-expanded',
+          //   resolve: () =>
+          //     path.resolve(__dirname, './specs/v3.0/petstore-expanded.yaml'),
+          // },
         ],
       },
     },

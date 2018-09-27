@@ -26,7 +26,7 @@ const getSpecs = async (options, logger) => {
   const process = processor(logger)
 
   // TODO: options for resolving specs, e.g. batches
-  return Promise.all(
+  const specs = await Promise.all(
     options.specs.map(async spec => {
       try {
         return await process(spec)
@@ -40,6 +40,8 @@ const getSpecs = async (options, logger) => {
       }
     })
   )
+
+  return specs.filter(s => s)
 }
 
 exports.getSpecs = getSpecs

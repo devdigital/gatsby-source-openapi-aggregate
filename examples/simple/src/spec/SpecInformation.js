@@ -6,14 +6,14 @@ const SpecInformation = ({ title, version, description }) => (
   <div>
     <h1>{title}</h1>
     <p>Version: {version}</p>
-    <Markdown markdown={description} />
+    {description && <Markdown markdown={description} />}
   </div>
 )
 
 SpecInformation.propTypes = {
   title: PropTypes.string.isRequired,
   version: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
 }
 
 export default SpecInformation

@@ -1,5 +1,6 @@
 const parse = require('openapi-parse').default
 const { contentResolve } = require('./content-resolve')
+const { convert } = require('./conversion/conversion-factory')
 
 const processor = logger => async spec => {
   const content = await contentResolve(logger)(spec)
@@ -14,10 +15,11 @@ const processor = logger => async spec => {
   }
 
   const schema = await parse(parseOptions)(content)
-  // TODO: convert to { ... } structure
+  const domainSchema = await convert(schema)(spec, schema)
+  // TODO: validate domain schema
   return {
     info: spec,
-    schema,
+    schema: domainSchema,
   }
 }
 

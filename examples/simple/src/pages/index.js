@@ -25,7 +25,7 @@ const Post = ({ slug, title, date, excerpt }) => (
 )
 
 export default ({ data }) => {
-  const postCount = data.allMarkdownRemark.totalCount
+  // const postCount = data.allMarkdownRemark.totalCount
   const posts = data.allMarkdownRemark.edges
     .filter(e => e.node.fields)
     .map(e => toPost(e))
@@ -52,7 +52,7 @@ export default ({ data }) => {
 }
 
 export const query = graphql`
-  query IndexQuery {
+  query {
     allOpenApiSpec {
       edges {
         node {

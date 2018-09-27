@@ -30,8 +30,6 @@ export const verbColor = value => {
         lighter: '#fff',
       }
   }
-
-  return color
 }
 
 const Verb = ({ value, style }) => {
@@ -42,6 +40,11 @@ const Verb = ({ value, style }) => {
   }
 
   return <g.P css={Object.assign(verbStyle, style)}>{value.toUpperCase()}</g.P>
+}
+
+Verb.propTypes = {
+  value: PropTypes.string.isRequired,
+  style: PropTypes.object,
 }
 
 export default Verb

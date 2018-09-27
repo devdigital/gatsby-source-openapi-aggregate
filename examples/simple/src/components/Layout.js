@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import glamorous from 'glamorous'
 import { rhythm } from '~/utils/typography'
 import { StaticQuery, graphql } from 'gatsby'

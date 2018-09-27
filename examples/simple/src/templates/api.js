@@ -22,11 +22,7 @@ class Api extends Component {
         <g.Div css={backStyle}>
           <Link to="/">Back</Link>
         </g.Div>
-        <SpecInformation
-          title={api.title}
-          version={api.version}
-          description={api.description}
-        />
+        <SpecInformation title={api.title} version={api.version} />
         {Object.keys(pathGroups).map(t => (
           <SpecPaths key={t} tag={t} paths={pathGroups[t]} />
         ))}
@@ -46,36 +42,6 @@ export const query = graphql`
     openApiSpec(id: { eq: $id }) {
       version
       title
-      description
-      childrenOpenApiSpecPath {
-        name
-        verb
-        summary
-        description
-        parameters {
-          name
-          in
-          description
-          required
-          type
-          format
-        }
-        tag
-        childrenOpenApiSpecResponse {
-          id
-          statusCode
-          description
-          childrenOpenApiSpecDefinition {
-            name
-            properties {
-              name
-              type
-              description
-              format
-            }
-          }
-        }
-      }
     }
   }
 `

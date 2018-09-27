@@ -28,50 +28,31 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   return new Promise((resolve, reject) => {
     graphql(`
-      {
+      query {
         allOpenApiSpec {
           edges {
             node {
               id
               name
-           }
-         }
-      }
-      {
-        allMarkdownRemark {
-          edges {
-            node {
-              fields {
-                slug
-              }
             }
           }
         }
       }
     `).then(result => {
+      if (result.errors) {
+        reject(result.errors)
+      }
+
       result.data.allOpenApiSpec.edges.map(({ node }) => {
         createPage({
           path: `apis/${node.name}`,
-          component: path.resolve(`./src/templates/api.js`),
+          component: path.resolve(__dirname, `./src/templates/api.js`),
           context: {
             id: node.id,
           },
         })
       })
 
-      result.data.allMarkdownRemark.edges.map(({ node }) => {
-        if (!node.fields) {
-          return
-        }
-
-        createPage({
-          path: node.fields.slug,
-          component: path.resolve(`./src/templates/blog-post.js`),
-          context: {
-            slug: node.fields.slug,
-          },
-        })
-      })
       resolve()
     })
   })

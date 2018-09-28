@@ -24,18 +24,18 @@ module.exports = {
       resolve: `gatsby-source-openapi-aggregate`,
       options: {
         specs: [
-          // {
-          //   name: 'uber',
-          //   resolve: () =>
-          //     fromFile(path.resolve(__dirname, './specs/v2.0/json/uber.json')),
-          // },
-          // {
-          //   name: 'pet-store',
-          //   resolve: () =>
-          //     fromFile(
-          //       path.resolve(__dirname, './specs/v2.0/json/petstore.json')
-          //     ),
-          // },
+          {
+            name: 'uber',
+            resolve: () =>
+              fromFile(path.resolve(__dirname, './specs/v2.0/json/uber.json')),
+          },
+          {
+            name: 'pet-store',
+            resolve: () =>
+              fromFile(
+                path.resolve(__dirname, './specs/v2.0/json/petstore.json')
+              ),
+          },
           // {
           //   name: 'pet-store-expanded',
           //   resolve: () =>
@@ -68,11 +68,11 @@ module.exports = {
             resolve: () =>
               path.resolve(__dirname, './specs/v3.0/api-with-examples.yaml'),
           },
-          // {
-          //   name: 'v3-petstore-expanded',
-          //   resolve: () =>
-          //     path.resolve(__dirname, './specs/v3.0/petstore-expanded.yaml'),
-          // },
+          {
+            name: 'v3-petstore-expanded',
+            resolve: () =>
+              path.resolve(__dirname, './specs/v3.0/petstore-expanded.yaml'),
+          },
         ],
       },
     },

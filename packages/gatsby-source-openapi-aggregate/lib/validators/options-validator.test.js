@@ -1,7 +1,7 @@
 import { optionsValidator } from './options-validator'
 
 describe('optionsValidator', () => {
-  it('should throw with no options', () => {
+  it('should return invalid object with no options', () => {
     const result = optionsValidator(null)
     expect(result.errors).toEqual({
       object: {

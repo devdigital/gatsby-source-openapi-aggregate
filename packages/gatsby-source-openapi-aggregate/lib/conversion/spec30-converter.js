@@ -9,6 +9,7 @@ const spec30Converter = async (spec, schema) => {
     fields: {
       name: spec.name,
       ...schema.info,
+      servers: schema.servers || [],
     },
   }
 

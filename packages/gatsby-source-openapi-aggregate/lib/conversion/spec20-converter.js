@@ -1,3 +1,5 @@
+const toServers = (host = '', basePath = '', schemes = []) => {}
+
 const spec20Converter = async (spec, schema) => {
   const rootId = `spec.${spec.name}`
 
@@ -8,6 +10,7 @@ const spec20Converter = async (spec, schema) => {
     fields: {
       name: spec.name,
       ...schema.info,
+      servers: toServers(schema.host, schema.basePath, schema.schemes),
     },
   }
 

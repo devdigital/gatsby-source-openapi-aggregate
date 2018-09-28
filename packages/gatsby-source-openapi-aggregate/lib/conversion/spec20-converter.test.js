@@ -1,9 +1,19 @@
 import { toServers, spec20Converter } from './spec20-converter'
 
 describe('toServers', () => {
-  it('should return empty collection with no schemes', () => {
+  it('should return default server with undefined schemes', () => {
+    const result = toServers(null, null)
+    expect(result).toEqual([{ url: '/' }])
+  })
+
+  it('should return default server with null schemes', () => {
     const result = toServers(null, null, null)
-    expect(result).toEqual([])
+    expect(result).toEqual([{ url: '/' }])
+  })
+
+  it('should return default server with empty schemes', () => {
+    const result = toServers(null, null, [])
+    expect(result).toEqual([{ url: '/' }])
   })
 
   it('should throw an error with non array schemes', () => {

@@ -1,9 +1,11 @@
 const isArray = require('inspected/schema/is-array').default
 
 const toServers = (host, basePath, schemes) => {
+  const defaultValue = [{ url: '/' }]
+
   if (!schemes) {
     if (!host && !basePath) {
-      return []
+      return defaultValue
     }
 
     return [{ url: `//${host || ''}${basePath || ''}` }]
@@ -14,7 +16,7 @@ const toServers = (host, basePath, schemes) => {
   }
 
   if (!host && !basePath && schemes.length === 0) {
-    return []
+    return defaultValue
   }
 
   if (schemes.length === 0) {

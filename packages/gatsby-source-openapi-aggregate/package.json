@@ -1,6 +1,9 @@
 {
   "name": "gatsby-source-openapi-aggregate",
   "version": "1.0.0",
+  "repository": "https://github.com/devdigital/gatsby-source-openapi-aggregate.git",
+  "author": "devdigital <devdigital.cloud@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "build": "babel ./src --out-dir . --ignore *.test.js",
     "watch": "babel ./src -w . --out-dir . --ignore *.test.js",

@@ -7,6 +7,7 @@ const spec30Converter = async (spec, schema) => {
     parent: null,
     children: [], // TODO: [...paths.map(p => p.id), ...definitions.map(d => d.id)]
     fields: {
+      specVersion: schema.openapi,
       name: spec.name,
       ...schema.info,
       servers: schema.servers || [{ url: '/' }],

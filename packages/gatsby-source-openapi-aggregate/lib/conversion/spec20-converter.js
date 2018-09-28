@@ -36,6 +36,7 @@ const spec20Converter = async (spec, schema) => {
     parent: null,
     children: [], // TODO: [...paths.map(p => p.id), ...definitions.map(d => d.id)]
     fields: {
+      specVersion: schema.swagger,
       name: spec.name,
       ...schema.info,
       servers: toServers(schema.host, schema.basePath, schema.schemes),

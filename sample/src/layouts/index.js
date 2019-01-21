@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import glamorous from 'glamorous'
-import { css } from 'glamor'
-import Link from 'gatsby-link'
 import { rhythm } from '~/utils/typography'
 import 'prismjs/themes/prism-solarizedlight.css'
 import './index.css'

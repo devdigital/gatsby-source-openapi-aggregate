@@ -59,11 +59,22 @@ const spec20Processor = (name, spec) => {
         responses.push(r)
       })
 
+      let xfields = {}
+
+      // copy x-* extension properties 
+      for (key in path) {
+        if (key.startsWith('x-')) {
+          // convert snake-case to snake_case
+          snake_case = key.replace(/-/g, "_");
+          xfields[snake_case] = path[key]
+        }
+      }
+      
       paths.push({
         id: `${rootId}.path.${p}.verb.${v}`,
         parent: rootId,
         children: [...pathResponses.map(pr => pr.id)],
-        fields: {
+        fields: Object.assign({
           name: p,
           verb: v,
           summary: path.summary,
@@ -71,7 +82,13 @@ const spec20Processor = (name, spec) => {
           parameters: path.parameters,
           tags: path.tags,
           tag: path.tags ? path.tags.join(',') : null,
-        },
+          operationId: path.operationId,
+          fullPath: spec.basePath + p,
+          consumes: path.consumes,
+          produces: path.produces,
+          schemes: path.schemes,
+          deprecated: path.deprecated,
+        }, xfields)
       })
     })
   })

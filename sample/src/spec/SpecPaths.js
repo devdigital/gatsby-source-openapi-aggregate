@@ -22,11 +22,12 @@ const SpecPath = ({ path }) => {
         <g.Div marginRight="1rem">
           <Verb value={path.verb} />
         </g.Div>
-        <g.P fontWeight="600">{path.name}</g.P>
+        <g.P fontWeight="600">{path.fullPath}</g.P>
         <g.P marginLeft="auto">{path.summary}</g.P>
       </g.Div>
-      {path.parameters && <SpecPathParameters parameters={path.parameters} />}
+      <g.P fontWeight="600">{path.operationId}()</g.P>
       {path.description && <Markdown markdown={path.description} />}
+      {path.parameters && <SpecPathParameters parameters={path.parameters} />}
       <h3>Responses</h3>
       {responses.map(r => (
         <SpecPathResponse

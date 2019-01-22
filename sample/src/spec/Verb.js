@@ -19,6 +19,11 @@ export const verbColor = value => {
         normal: '#fca130',
         lighter: 'rgba(252,161,48,.1)',
       }
+    case 'patch':
+      return {
+        normal: 'purple',
+        lighter: 'lavender',
+      }
     case 'delete':
       return {
         normal: '#f93e3e',

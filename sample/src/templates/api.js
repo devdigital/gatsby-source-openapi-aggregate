@@ -49,8 +49,10 @@ export const query = graphql`
       childrenOpenApiSpecPath {
         name
         verb
+        operationId
         summary
         description
+        fullPath
         parameters {
           name
           in

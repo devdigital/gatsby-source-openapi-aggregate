@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.1.8...v0.2.0) (2019-01-22)
+
+
+### Bug Fixes
+
+* remove blog post from sample app ([a809d76](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/a809d76))
+
+
+### Features
+
+* add additional built-in and custom fields ([78ea659](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/78ea659))
+* add color definitions for HTTP PATCH ([ff48405](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/ff48405))
+
+
+
 <a name="0.1.8"></a>
 ## [0.1.8](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.1.7...v0.1.8) (2018-08-22)
 

@@ -3,14 +3,16 @@ const spec20Processor = (name, spec) => {
 
   const definitions = Object.keys(spec.definitions).map(d => {
     const definition = spec.definitions[d]
+    const properties = definition.properties || {}
+
     return {
       id: `${rootId}.definition.${d}`,
       parent: rootId,
       children: [],
       fields: {
         name: d,
-        properties: Object.keys(definition.properties).map(k => {
-          const property = definition.properties[k]
+        properties: Object.keys(properties).map(k => {
+          const property = properties[k]
           return {
             name: k,
             type: property.type,

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.2.0...v0.2.1) (2019-02-22)
+
+
+### Bug Fixes
+
+* handle empty definition properties ([f0c0876](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/f0c0876))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.1.8...v0.2.0) (2019-01-22)
 

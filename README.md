@@ -1,6 +1,6 @@
 Gatsby source plugin for pulling data into Gatsby from Open API/Swagger specifications
 
-* [Sample](/sample)
+- [Sample](/sample)
 
 ## Features
 
@@ -32,7 +32,7 @@ plugins: [
       specs: [                // specs collection is required, you can define as many specs as you want
         {
           name: 'myspec',     // required, must be unique
-          resolve: () => ...  // required, function which returns a Promise resolving Swagger JSON          
+          resolve: () => ...  // required, function which returns a Promise resolving Swagger JSON
         }
       ]
     }
@@ -71,7 +71,7 @@ const fromJson = filePath => {
           {
             name: 'myspec',
             resolve: () => fromJson(path.resolve(__dirname, './swagger.json'))
-          }          
+          }
         ]
       }
     },
@@ -82,12 +82,12 @@ TODO: example retrieving JSON from HTTP request
 
 ## How to query
 
-The plugin adds the following collections: 
+The plugin adds the following collections:
 
-* `allOpenApiSpec`
-* `allOpenApiSpecPath`
-* `allOpenApiSpecResponse`
-* `allOpenApiSpecDefinition`
+- `allOpenApiSpec`
+- `allOpenApiSpecPath`
+- `allOpenApiSpecResponse`
+- `allOpenApiSpecDefinition`
 
 You can inspect these in GraphiQL at `http://localhost:8000/___graphql`
 
@@ -145,7 +145,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 }
 ```
 
-The above creates a new page for every spec defined in the plugin options, using `/apis/<name>` as the path, where `<name>` is the name you defined within the plugin options. 
+The above creates a new page for every spec defined in the plugin options, using `/apis/<name>` as the path, where `<name>` is the name you defined within the plugin options.
 
 Each page uses the `./src/templates/api.js` React component to render the detail page. The `node.id` is passed to the context so that it is available as a GraphQL variable so that we can retreive the appropriate spec node from the `api.js` component.
 
@@ -198,16 +198,13 @@ Each path has a `tags` and `tag` field - `tags` is the original array of tags as
 
 ## Development
 
-For developers, to run the local sample you will need to link the local plugin implementation to the `gatsby-source-openapi-aggregate` module.
-
-E.g. with `yarn`, you can do the following one off step:
+For developers:
 
 ```
-cd src
-yarn link
+yarn
 
-cd ..\sample
-yarn link gatsby-source-openapi-aggregate
+cd examples
+cd simple
 
 yarn develop
 open http://localhost:8000

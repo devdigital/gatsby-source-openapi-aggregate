@@ -1,3 +1,4 @@
+const { loggerValidator } = require('./validators/logger-validator')
 const { optionsValidator } = require('./validators/options-validator')
 const { processor } = require('./processor')
 const errorPerProperty = require('inspected/formatters/error-per-property')
@@ -7,12 +8,20 @@ const displayErrors = (errors, logger) => {
   logger.error(
     `The provided gatsby-source-openapi-aggregate options are invalid:`
   )
-  errors.forEach(error => {
+
+  errors.property.forEach(error => {
     logger.error(`option: '${error.name}', error: ${error.messages.join(',')}`)
   })
 }
 
-const validateOptions = options => {
+const validateLogger = logger => {
+  const validation = loggerValidator(logger)
+  if (!validation.isValid) {
+    throw new Error('The logger is invalid.')
+  }
+}
+
+const validateOptions = logger => options => {
   const validation = optionsValidator(options)
   if (!validation.isValid) {
     displayErrors(errorPerProperty(validation.errors), logger)
@@ -21,7 +30,8 @@ const validateOptions = options => {
 }
 
 const getSpecs = async (options, logger) => {
-  validateOptions(options)
+  validateLogger(logger)
+  validateOptions(logger)(options)
 
   const process = processor(logger)
 

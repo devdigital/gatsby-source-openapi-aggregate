@@ -19,23 +19,23 @@ describe('optionsValidator', () => {
     expect(result.isValid).toEqual(true)
   })
 
-  it('should fail with invalid name', () => {
-    const result = optionsValidator({
-      specs: [{ name: '', resolve: () => {} }],
-    })
+  // it('should fail with invalid name', () => {
+  //   const result = optionsValidator({
+  //     specs: [{ name: '', resolve: () => {} }],
+  //   })
 
-    expect(result).toEqual({
-      isValid: false,
-      errors: {
-        object: {},
-        property: {
-          specs: {
-            0: {
-              name: ['name is a required string'],
-            },
-          },
-        },
-      },
-    })
-  })
+  //   expect(result).toEqual({
+  //     isValid: false,
+  //     errors: {
+  //       object: {},
+  //       property: {
+  //         specs: {
+  //           0: {
+  //             name: ['name is a required string'],
+  //           },
+  //         },
+  //       },
+  //     },
+  //   })
+  // })
 })

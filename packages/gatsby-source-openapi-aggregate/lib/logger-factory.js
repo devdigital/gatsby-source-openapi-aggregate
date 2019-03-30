@@ -19,4 +19,13 @@ const loggerFactory = reporter => {
   }
 }
 
+const nullLoggerFactory = () => ({
+  trace: _ => {},
+  info: _ => {},
+  warning: _ => {},
+  error: _ => {},
+  success: _ => {},
+})
+
+exports.nullLoggerFactory = nullLoggerFactory
 exports.loggerFactory = loggerFactory

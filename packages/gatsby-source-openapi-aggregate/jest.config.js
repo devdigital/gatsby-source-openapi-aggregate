@@ -1,5 +1,4 @@
 module.exports = {
   verbose: true,
-  transform: { '^.+\\.js$': '<rootDir>/jest-preprocess.js' },
-  setupFiles: ['<rootDir>/../../node_modules/regenerator-runtime/runtime'],
+  transform: { '^.+\\.js$': '<rootDir>/jest-transform.js' },
 }

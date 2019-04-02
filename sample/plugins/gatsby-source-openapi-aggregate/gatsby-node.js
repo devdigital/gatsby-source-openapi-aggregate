@@ -68,7 +68,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
   // TODO: validate options [{ name, resolve }]
   // each name should be unique, only name and resolve properties should be present
   // also, resolve should be a function which returns a promise
-  options.specs.forEach(async spec => {
+  for(spec of options.specs) {
     let jsonText = null
     try {
       jsonText = await spec.resolve()
@@ -108,5 +108,5 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
         `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
       )
     }
-  })
+  }
 }

@@ -1,6 +1,6 @@
 Gatsby source plugin for pulling data into Gatsby from Open API/Swagger specifications
 
-* [Sample](/sample)
+- [Sample](/sample)
 
 ## Features
 
@@ -32,7 +32,7 @@ plugins: [
       specs: [                // specs collection is required, you can define as many specs as you want
         {
           name: 'myspec',     // required, must be unique
-          resolve: () => ...  // required, function which returns a Promise resolving Swagger JSON          
+          resolve: () => ...  // required, function which returns a Promise resolving Swagger JSON
         }
       ]
     }
@@ -71,23 +71,41 @@ const fromJson = filePath => {
           {
             name: 'myspec',
             resolve: () => fromJson(path.resolve(__dirname, './swagger.json'))
-          }          
+          }
         ]
       }
     },
 
 ```
 
-TODO: example retrieving JSON from HTTP request
+Example retrieving JSON from HTTP request
+
+```javascript
+const fetchSpec = async url => {
+  return fetch(url)
+    .then(response => {
+      if (response.status == 200) {
+        return response.text();
+      } else {
+        console.warn("Error fetching swagger spec");
+        return {};
+      }
+    })
+    .catch(err => {
+      console.log("Error fetching swagger spec: " + err);
+      return {};
+    });
+};
+```
 
 ## How to query
 
-The plugin adds the following collections: 
+The plugin adds the following collections:
 
-* `allOpenApiSpec`
-* `allOpenApiSpecPath`
-* `allOpenApiSpecResponse`
-* `allOpenApiSpecDefinition`
+- `allOpenApiSpec`
+- `allOpenApiSpecPath`
+- `allOpenApiSpecResponse`
+- `allOpenApiSpecDefinition`
 
 You can inspect these in GraphiQL at `http://localhost:8000/___graphql`
 
@@ -115,7 +133,7 @@ To create a detail page for each spec:
 // gatsby-node.js
 
 exports.createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
+  const { createPage } = boundActionCreators;
   return new Promise((resolve, reject) => {
     graphql(`
       {
@@ -134,18 +152,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           path: `apis/${node.name}`,
           component: path.resolve(`./src/templates/api.js`),
           context: {
-            id: node.id,
-          },
-        })
-      })
+            id: node.id
+          }
+        });
+      });
 
-      resolve()
-    })
-  })
-}
+      resolve();
+    });
+  });
+};
 ```
 
-The above creates a new page for every spec defined in the plugin options, using `/apis/<name>` as the path, where `<name>` is the name you defined within the plugin options. 
+The above creates a new page for every spec defined in the plugin options, using `/apis/<name>` as the path, where `<name>` is the name you defined within the plugin options.
 
 Each page uses the `./src/templates/api.js` React component to render the detail page. The `node.id` is passed to the context so that it is available as a GraphQL variable so that we can retreive the appropriate spec node from the `api.js` component.
 
@@ -189,7 +207,7 @@ export const query = graphql`
       }
     }
   }
-`
+`;
 ```
 
 In the above example, we're using the `$id` variable to retrieve the appropriate spec for that page. We're retreiving basic spec information (such as `version`, `title`, `description`) as well as the children paths for the spec, their associated properties, as well as each paths child responses and in turn their child definitions.

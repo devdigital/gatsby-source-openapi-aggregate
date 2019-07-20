@@ -48,7 +48,7 @@ const toNode = (data, type) => {
         type,
       },
     },
-    data.fields
+    data.fields,
   )
 
   if (data.meta) {
@@ -68,13 +68,13 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
   // TODO: validate options [{ name, resolve }]
   // each name should be unique, only name and resolve properties should be present
   // also, resolve should be a function which returns a promise
-  options.specs.forEach(async spec => {
+  for (spec of options.specs) {
     let jsonText = null
     try {
       jsonText = await spec.resolve()
     } catch (exception) {
       console.warn(
-        `There was an error resolving spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
+        `There was an error resolving spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`,
       )
     }
 
@@ -105,8 +105,8 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
       })
     } catch (exception) {
       console.warn(
-        `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`
+        `There was an error processing spec '${spec.name}', ${exception.name} ${exception.message} ${exception.stack}`,
       )
     }
-  })
+  }
 }

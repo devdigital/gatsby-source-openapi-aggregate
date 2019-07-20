@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.2.2](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.2.1...v0.2.2) (2019-07-20)
+
+
+### Bug Fixes
+
+* remove use of forEach with async ([b5b98d1](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/b5b98d1))
+
+
 
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.2.0...v0.2.1) (2019-02-22)

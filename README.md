@@ -84,12 +84,12 @@ Retrieving Swagger document from HTTP request:
 const fetchSpec = async url => {
   return fetch(url).then(response => {
     if (response.status === 200) {
-      return response.text();
+      return response.text()
     }
 
-    throw new Error("There was an error retrieving document.");
-  });
-};
+    throw new Error('There was an error retrieving document.')
+  })
+}
 ```
 
 ## How to query
@@ -127,7 +127,7 @@ To create a detail page for each spec:
 // gatsby-node.js
 
 exports.createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators;
+  const { createPage } = boundActionCreators
   return new Promise((resolve, reject) => {
     graphql(`
       {
@@ -146,15 +146,15 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           path: `apis/${node.name}`,
           component: path.resolve(`./src/templates/api.js`),
           context: {
-            id: node.id
-          }
-        });
-      });
+            id: node.id,
+          },
+        })
+      })
 
-      resolve();
-    });
-  });
-};
+      resolve()
+    })
+  })
+}
 ```
 
 The above creates a new page for every spec defined in the plugin options, using `/apis/<name>` as the path, where `<name>` is the name you defined within the plugin options.
@@ -201,7 +201,7 @@ export const query = graphql`
       }
     }
   }
-`;
+`
 ```
 
 In the above example, we're using the `$id` variable to retrieve the appropriate spec for that page. We're retreiving basic spec information (such as `version`, `title`, `description`) as well as the children paths for the spec, their associated properties, as well as each paths child responses and in turn their child definitions.

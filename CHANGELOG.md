@@ -1,13 +1,24 @@
-# Changelog
+# Change Log
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.2.2](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.2.1...v0.2.2) (2019-07-20)
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/devdigital/gatsby-source-openapi-aggregate/compare/v0.1.7...v0.3.0) (2020-07-06)
 
 
 ### Bug Fixes
 
+* add property.example to spec20 processor ([efd782a](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/efd782a))
+* handle empty definition properties ([f0c0876](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/f0c0876))
+* remove blog post from sample app ([a809d76](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/a809d76))
 * remove use of forEach with async ([b5b98d1](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/b5b98d1))
+
+
+### Features
+
+* add additional built-in and custom fields ([78ea659](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/78ea659))
+* add color definitions for HTTP PATCH ([ff48405](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/ff48405))
+* include schema, headers, and examples in OpenApiSpecResponse; Fix broken Markdown component ([#21](https://github.com/devdigital/gatsby-source-openapi-aggregate/issues/21)) ([42bc32d](https://github.com/devdigital/gatsby-source-openapi-aggregate/commit/42bc32d))
 
 
 

@@ -1,3 +1,18 @@
+const getXFields = obj => {
+  let xfields = {}
+
+  // copy x-* extension properties
+  for (key in obj) {
+    if (key.startsWith('x-')) {
+      // convert snake-case to snake_case
+      snake_case = key.replace(/-/g, '_')
+      xfields[snake_case] = obj[key]
+    }
+  }
+
+  return xfields
+}
+
 const spec20Processor = (name, spec) => {
   const rootId = `spec.${name}`
 
@@ -50,27 +65,22 @@ const spec20Processor = (name, spec) => {
           children: definitionId
             ? [`${rootId}.definition.${definitionId}`]
             : [],
-          fields: {
-            statusCode: r,
-            description: response.description,
-          },
+          fields: Object.assign(
+            {
+              statusCode: r,
+              description: response.description,
+              schema: response.schema,
+              headers: response.headers,
+              examples: response.examples,
+            },
+            getXFields(response),
+          ),
         }
       })
 
       pathResponses.forEach(r => {
         responses.push(r)
       })
-
-      let xfields = {}
-
-      // copy x-* extension properties
-      for (key in path) {
-        if (key.startsWith('x-')) {
-          // convert snake-case to snake_case
-          snake_case = key.replace(/-/g, '_')
-          xfields[snake_case] = path[key]
-        }
-      }
 
       paths.push({
         id: `${rootId}.path.${p}.verb.${v}`,
@@ -92,7 +102,7 @@ const spec20Processor = (name, spec) => {
             schemes: path.schemes,
             deprecated: path.deprecated,
           },
-          xfields,
+          getXFields(path),
         ),
       })
     })

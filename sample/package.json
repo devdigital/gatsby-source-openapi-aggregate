@@ -18,20 +18,22 @@
     "glamorous": "^4.9.7",
     "lodash.groupby": "^4.6.0",
     "lodash.rest": "^4.0.5",
-    "remark": "^8.0.0",
-    "remark-react": "^4.0.1",
+    "remark-parse": "^8.0.2",
+    "remark-react": "^7.0.1",
     "typography-theme-alton": "^0.15.10",
     "typography-theme-kirkham": "^0.16.3",
-    "typography-theme-twin-peaks": "^0.15.11"
+    "typography-theme-twin-peaks": "^0.15.11",
+    "unified": "^9.0.0"
   },
-  "keywords": ["gatsby"],
+  "keywords": [
+    "gatsby"
+  ],
   "license": "MIT",
   "main": "n/a",
   "scripts": {
     "develop": "gatsby develop",
     "build": "gatsby build",
-    "format":
-      "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
+    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {

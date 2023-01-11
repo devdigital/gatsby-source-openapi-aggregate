@@ -14,7 +14,7 @@
     "gatsby-remark-responsive-iframe": "^1.4.8",
     "gatsby-remark-smartypants": "^1.4.8",
     "gatsby-source-filesystem": "^1.5.2",
-    "gatsby-transformer-remark": "^1.7.15",
+    "gatsby-transformer-remark": "^5.25.1",
     "glamorous": "^4.9.7",
     "lodash.groupby": "^4.6.0",
     "lodash.rest": "^4.0.5",
